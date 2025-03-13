@@ -4,34 +4,34 @@ USE HRManagementInformationDB;
 -- ROLES Tablosu
 CREATE TABLE Roles (
     role_id INT PRIMARY KEY AUTO_INCREMENT,
-    role_title VARCHAR(255),
+    role_title VARCHAR(255) NOT NULL,
     role_description TEXT
 );
 
 -- DEPARTMENTS Tablosu
 CREATE TABLE Departments (
     department_id INT PRIMARY KEY AUTO_INCREMENT,
-    department_name VARCHAR(255)
+    department_name VARCHAR(255) NOT NULL
 );
 
 -- DOCUMENT_TYPE Tablosu
 CREATE TABLE DocumentTypes (
     document_type_id INT PRIMARY KEY AUTO_INCREMENT,
-    type_name VARCHAR(255),
+    type_name VARCHAR(255) NOT NULL,
     description TEXT
 );
 
 -- LEAVE_TYPES Tablosu
 CREATE TABLE LeaveTypes (
     leave_type_id INT PRIMARY KEY AUTO_INCREMENT,
-    leave_type_name VARCHAR(255),
+    leave_type_name VARCHAR(255) NOT NULL,
     description TEXT
 );
 
 -- INSURANCE_TYPES Tablosu
 CREATE TABLE InsuranceTypes (
     insurance_type_id INT PRIMARY KEY AUTO_INCREMENT,
-    insurance_type_name VARCHAR(255),
+    insurance_type_name VARCHAR(255) NOT NULL,
     description TEXT
 );
 
