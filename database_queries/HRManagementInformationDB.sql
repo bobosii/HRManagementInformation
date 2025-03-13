@@ -1,195 +1,186 @@
 CREATE DATABASE HRManagementInformationDB;
 USE HRManagementInformationDB;
 
--- ROLES Tablosu
-CREATE TABLE Roles (
-    role_id INT PRIMARY KEY AUTO_INCREMENT,
-    role_title VARCHAR(255) NOT NULL,
-    role_description TEXT
+-- Roller Tablosu
+CREATE TABLE roller (
+    rol_id INT AUTO_INCREMENT PRIMARY KEY,
+    rol_basligi VARCHAR(255) NOT NULL,
+    rol_aciklamasi TEXT
 );
 
--- DEPARTMENTS Tablosu
-CREATE TABLE Departments (
-    department_id INT PRIMARY KEY AUTO_INCREMENT,
-    department_name VARCHAR(255) NOT NULL
+-- Departmanlar Tablosu
+CREATE TABLE departmanlar (
+    departman_id INT AUTO_INCREMENT PRIMARY KEY,
+    departman_adi VARCHAR(255) NOT NULL
 );
 
--- DOCUMENT_TYPE Tablosu
-CREATE TABLE DocumentTypes (
-    document_type_id INT PRIMARY KEY AUTO_INCREMENT,
-    type_name VARCHAR(255) NOT NULL,
-    description TEXT
+-- Kullanıcılar Tablosu
+CREATE TABLE kullanicilar (
+    kullanici_id INT AUTO_INCREMENT PRIMARY KEY,
+    ad VARCHAR(255) NOT NULL,
+    soyad VARCHAR(255) NOT NULL,
+    dogum_tarihi DATE,
+    email VARCHAR(255) UNIQUE,
+    telefon VARCHAR(20) UNIQUE,
+    ise_baslama_tarihi DATE,
+    rol_id INT,
+    departman_id INT,
+    parola VARCHAR(255),
+    tc_no VARCHAR(11) UNIQUE,
+    FOREIGN KEY (rol_id) REFERENCES roller(rol_id),
+    FOREIGN KEY (departman_id) REFERENCES departmanlar(departman_id)
 );
 
--- LEAVE_TYPES Tablosu
-CREATE TABLE LeaveTypes (
-    leave_type_id INT PRIMARY KEY AUTO_INCREMENT,
-    leave_type_name VARCHAR(255) NOT NULL,
-    description TEXT
+-- Maaşlar Tablosu
+CREATE TABLE maaslar (
+    maas_id INT AUTO_INCREMENT PRIMARY KEY,
+    kullanici_id INT,
+    maas_tutari DECIMAL(10,2),
+    FOREIGN KEY (kullanici_id) REFERENCES kullanicilar(kullanici_id)
 );
 
--- INSURANCE_TYPES Tablosu
-CREATE TABLE InsuranceTypes (
-    insurance_type_id INT PRIMARY KEY AUTO_INCREMENT,
-    insurance_type_name VARCHAR(255) NOT NULL,
-    description TEXT
+-- Bordro Kayıtları Tablosu
+CREATE TABLE bordro_kayitlari (
+    bordro_id INT AUTO_INCREMENT PRIMARY KEY,
+    kullanici_id INT,
+    bordro_tarihi DATE,
+    temel_maas DECIMAL(10,2),
+    ikramiye DECIMAL(10,2),
+    kesintiler DECIMAL(10,2),
+    net_maas DECIMAL(10,2),
+    FOREIGN KEY (kullanici_id) REFERENCES kullanicilar(kullanici_id)
 );
 
--- USERS Tablosu
-CREATE TABLE Users (
-    user_id INT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
-    birth_date DATE,
-    email VARCHAR(255),
-    phone VARCHAR(20),
-    hire_date DATE,
-    role_id INT,
-    department_id INT,
-    password VARCHAR(255),
-    FOREIGN KEY (role_id) REFERENCES Roles(role_id),
-    FOREIGN KEY (department_id) REFERENCES Departments(department_id)
+-- İşe Alım Tablosu
+CREATE TABLE ise_alimlar (
+    ise_alim_id INT AUTO_INCREMENT PRIMARY KEY,
+    aday_adi VARCHAR(255),
+    basvuru_tarihi DATE,
+    pozisyon_id INT,
+    durum VARCHAR(50),
+    notlar TEXT
 );
 
--- SALARIES Tablosu
-CREATE TABLE Salaries (
-    salary_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    salary_amount DECIMAL(10,2),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+-- Mülakatlar Tablosu
+CREATE TABLE mulakatlar (
+    mulakat_id INT AUTO_INCREMENT PRIMARY KEY,
+    ise_alim_id INT,
+    kullanici_id INT,
+    mulakat_tarihi DATE,
+    geri_bildirim TEXT,
+    FOREIGN KEY (ise_alim_id) REFERENCES ise_alimlar(ise_alim_id),
+    FOREIGN KEY (kullanici_id) REFERENCES kullanicilar(kullanici_id)
 );
 
--- PAYROLL_RECORDS Tablosu
-CREATE TABLE PayrollRecords (
-    payroll_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    payroll_date DATE,
-    base_salary DECIMAL(10,2),
-    bonuses DECIMAL(10,2),
-    deductions DECIMAL(10,2),
-    net_salary DECIMAL(10,2),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+-- İş Teklifleri Tablosu
+CREATE TABLE is_teklifleri (
+    teklif_id INT AUTO_INCREMENT PRIMARY KEY,
+    ise_alim_id INT,
+    teklif_tarihi DATE,
+    teklif_durumu VARCHAR(50),
+    teklif_maasi DECIMAL(10,2),
+    geri_bildirim TEXT,
+    FOREIGN KEY (ise_alim_id) REFERENCES ise_alimlar(ise_alim_id)
 );
 
--- RECRUITMENT Tablosu
-CREATE TABLE Recruitments (
-    recruitment_id INT PRIMARY KEY AUTO_INCREMENT,
-    candidate_name VARCHAR(255),
-    application_date DATE,
-    position_id INT,
-    status VARCHAR(50),
-    notes TEXT
+-- Çalışan Devam Durumu Tablosu
+CREATE TABLE calisan_devam_durumu (
+    devam_id INT AUTO_INCREMENT PRIMARY KEY,
+    kullanici_id INT,
+    devam_tarihi DATE,
+    giris_saati TIME,
+    cikis_saati TIME,
+    mesai_saatleri DECIMAL(5,2),
+    FOREIGN KEY (kullanici_id) REFERENCES kullanicilar(kullanici_id)
 );
 
--- INTERVIEWS Tablosu
-CREATE TABLE Interviews (
-    interview_id INT PRIMARY KEY AUTO_INCREMENT,
-    recruitment_id INT,
-    interview_date DATE,
-    feedback TEXT,
-    FOREIGN KEY (recruitment_id) REFERENCES Recruitments(recruitment_id)
+-- Aylık Hedefler Tablosu
+CREATE TABLE aylik_hedefler (
+    hedef_id INT AUTO_INCREMENT PRIMARY KEY,
+    kullanici_id INT,
+    yil INT,
+    ay INT,
+    hedef_aciklama VARCHAR(255),
+    hedef_degeri DECIMAL(10,2),
+    FOREIGN KEY (kullanici_id) REFERENCES kullanicilar(kullanici_id)
 );
 
--- JOB_OFFERS Tablosu
-CREATE TABLE JobOffers (
-    offer_id INT PRIMARY KEY AUTO_INCREMENT,
-    recruitment_id INT,
-    offer_date DATE,
-    offer_status VARCHAR(50),
-    offered_salary DECIMAL(10,2),
-    feedback TEXT,
-    FOREIGN KEY (recruitment_id) REFERENCES Recruitments(recruitment_id)
+-- Terfiler Tablosu
+CREATE TABLE terfiler (
+    terfi_id INT AUTO_INCREMENT PRIMARY KEY,
+    kullanici_id INT,
+    eski_pozisyon_id INT,
+    yeni_pozisyon_id INT,
+    terfi_tarihi DATE,
+    maas_artis_orani DECIMAL(5,2),
+    notlar TEXT,
+    FOREIGN KEY (kullanici_id) REFERENCES kullanicilar(kullanici_id)
 );
 
--- EMPLOYEE_ATTENDANCE Tablosu
-CREATE TABLE EmployeeAttandance (
-    attendance_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    attendance_date DATE,
-    check_in_time TIME,
-    check_out_time TIME,
-    overtime_hours DECIMAL(5,2),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+-- Belgeler Türleri Tablosu
+CREATE TABLE belge_turleri (
+    belge_turu_id INT AUTO_INCREMENT PRIMARY KEY,
+    belge_adi VARCHAR(255),
+    aciklama TEXT
 );
 
--- MONTHLY_GOALS Tablosu
-CREATE TABLE MonthlyGoals (
-    goal_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    year INT,
-    month INT,
-    target_description VARCHAR(255),
-    goal_value DECIMAL(10,2),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+-- Çalışan Belgeleri Tablosu
+CREATE TABLE calisan_belgeleri (
+    belge_id INT AUTO_INCREMENT PRIMARY KEY,
+    kullanici_id INT,
+    belge_turu_id INT,
+    dosya_yolu VARCHAR(255),
+    yukleme_tarihi DATE,
+    gecerlilik_tarihi DATE,
+    durum VARCHAR(50),
+    FOREIGN KEY (kullanici_id) REFERENCES kullanicilar(kullanici_id),
+    FOREIGN KEY (belge_turu_id) REFERENCES belge_turleri(belge_turu_id)
 );
 
--- EMPLOYEE_DOCUMENTS Tablosu
-CREATE TABLE EmployeeDocuments (
-    document_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    document_type_id INT,
-    file_path VARCHAR(255),
-    upload_date DATE,
-    valid_until DATE,
-    status VARCHAR(50),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (document_type_id) REFERENCES DocumentTypes(document_type_id)
+-- Sigorta Türleri Tablosu
+CREATE TABLE sigorta_turleri (
+    sigorta_turu_id INT AUTO_INCREMENT PRIMARY KEY,
+    sigorta_turu_adi VARCHAR(255),
+    aciklama TEXT
 );
 
--- LEAVE_REQUEST Tablosu
-CREATE TABLE LeaveRequests (
-    leave_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    leave_type_id INT,
-    start_date DATE,
-    end_date DATE,
-    total_days DECIMAL(5,2),
-    note TEXT,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (leave_type_id) REFERENCES LeaveTypes(leave_type_id)
+-- Sigorta Kayıtları Tablosu
+CREATE TABLE sigorta_kayitlari (
+    sigorta_id INT AUTO_INCREMENT PRIMARY KEY,
+    kullanici_id INT,
+    sigorta_turu_id INT,
+    baslangic_tarihi DATE,
+    bitis_tarihi DATE,
+    sigorta_numarasi VARCHAR(50) UNIQUE,
+    FOREIGN KEY (kullanici_id) REFERENCES kullanicilar(kullanici_id),
+    FOREIGN KEY (sigorta_turu_id) REFERENCES sigorta_turleri(sigorta_turu_id)
 );
 
--- PROMOTIONS Tablosu
-CREATE TABLE Promotions (
-    promotion_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    old_position_id INT,
-    new_position_id INT,
-    promotion_date DATE,
-    salary_increase_rate DECIMAL(5,2),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (old_position_id) REFERENCES Roles(role_id),
-    FOREIGN KEY (new_position_id) REFERENCES Roles(role_id)
+-- Çıkış Kayıtları Tablosu
+CREATE TABLE cikis_kayitlari (
+    cikis_id INT AUTO_INCREMENT PRIMARY KEY,
+    kullanici_id INT,
+    cikis_tarihi DATE,
+    neden TEXT,
+    FOREIGN KEY (kullanici_id) REFERENCES kullanicilar(kullanici_id)
 );
 
--- INSURANCE_RECORD Tablosu
-CREATE TABLE InsuranceRecords (
-    insurance_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    insurance_type_id INT,
-    start_date DATE,
-    end_date DATE,
-    insurance_number VARCHAR(50),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (insurance_type_id) REFERENCES InsuranceTypes(insurance_type_id)
+-- İzin Türleri Tablosu
+CREATE TABLE izin_turleri (
+    izin_turu_id INT AUTO_INCREMENT PRIMARY KEY,
+    izin_turu_tipi VARCHAR(255),
+    aciklama VARCHAR(255)
 );
 
--- EXIT_RECORDS Tablosu
-CREATE TABLE ExitRecords (
-    exit_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    exit_date DATE,
-    reason TEXT,
-    notes TEXT,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
-);
-
--- HR_MEETING_NOTES Tablosu
-CREATE TABLE HRMeetingNotes (
-    note_id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    meeting_date DATE,
-    category VARCHAR(50),
-    notes TEXT,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+-- İzinler Tablosu
+CREATE TABLE izinler (
+    izin_id INT AUTO_INCREMENT PRIMARY KEY,
+    kullanici_id INT,
+    izin_turu_id INT,
+    baslangic_tarihi DATE,
+    bitis_tarihi DATE,
+    toplam_gun DECIMAL(5,2),
+    durum VARCHAR(50),
+    FOREIGN KEY (kullanici_id) REFERENCES kullanicilar(kullanici_id),
+    FOREIGN KEY (izin_turu_id) REFERENCES izin_turleri(izin_turu_id)
 );
