@@ -6,8 +6,7 @@ This project was initiated under the leadership of our esteemed Head of Departme
 
 The Human Resources Information Management System (HRIMS) is a web-based application designed to digitize and automate the core functions of human resources. This system will manage critical HR tasks such as employee records, payroll processes, and leave tracking.
 
-The backend of the project will be developed using **Java Spring Boot**, while the frontend technology will be decided and integrated at a later stage.
-
+The backend of the project will be developed using **Java Spring Boot**, while the frontend is being built with React.
 ## 👥 Project Team
 
 This project is being carried out by a dedicated team of six members:
@@ -29,7 +28,7 @@ This project is being carried out by a dedicated team of six members:
 ## 👨‍💻 Technologies
 
 - **Backend:** Java Spring Boot
-- **Frontend:** (To be determined and integrated later)
+- **Frontend:** React
 
 ## 📄 License
 
