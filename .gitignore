@@ -1,1 +1,74 @@
+# === MAVEN ===
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# === JAVA / SPRING ===
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+# === SPRING CONFIG ===
+src/main/resources/application.properties
+src/main/resources/application.yml
+src/main/resources/application-dev.properties
+src/main/resources/application-prod.properties
+src/main/resources/application-*.yml
+
+# === IDEs ===
+## IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+## Eclipse
+.settings/
+.project
+.classpath
+
+## VS Code
+.vscode/
+
+# === OS-SPECIFIC FILES ===
+## macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+## Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# === LOGS ===
+*.log
+logs/
+*.out
+
+# === ENV / SENSITIVE ===
+.env
+*.env
+.env.*
+
+# === OTHERS ===
+*.swp
+*.bak
+*.tmp
+*.pid
+*.seed
+*.orig
+
+# === TEST / COVERAGE ===
+.test/
+coverage/
+jacoco.exec
