@@ -64,13 +64,16 @@ public class UserController {
     }
 
     // Update user
-    @PostMapping()
+    @PutMapping("/{user-id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<UserResponse> updateUser(@RequestBody UserUpdateRequest userUpdateRequest){
-        User updateUser = this.modelMapperService.forRequest().map(userUpdateRequest, User.class);
-        this.userService.update(updateUser);
+    public ResultData<UserResponse> updateUser(
+            @PathVariable("user-id") int userId,
+            @RequestBody UserUpdateRequest userUpdateRequest){
+        User existingUser = this.userService.get(userId);
+        this.modelMapperService.forRequest().map(userUpdateRequest, existingUser);
+        this.userService.update(existingUser);
 
-        return ResultHelper.success(this.modelMapperService.forResponse().map(updateUser, UserResponse.class));
+        return ResultHelper.success(this.modelMapperService.forResponse().map(existingUser, UserResponse.class));
     }
 
     // Delete User
