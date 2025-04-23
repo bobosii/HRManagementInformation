@@ -56,7 +56,7 @@ public class EmployeeAttendanceController {
     public ResultData<EmployeeAttendanceResponse> saveAttendance(@RequestBody EmployeeAttendanceSaveRequest attendanceSaveRequest) {
         EmployeeAttendance saveAttendance = this.modelMapperService.forRequest().map(attendanceSaveRequest, EmployeeAttendance.class);
         this.employeeAttendanceService.save(saveAttendance);
-        return ResultHelper.success(this.modelMapperService.forResponse().map(saveAttendance, EmployeeAttendanceResponse.class));
+        return ResultHelper.created(this.modelMapperService.forResponse().map(saveAttendance, EmployeeAttendanceResponse.class));
     }
 
     // Update attendance

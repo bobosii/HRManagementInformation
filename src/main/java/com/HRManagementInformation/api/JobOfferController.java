@@ -53,7 +53,7 @@ public class JobOfferController {
     public ResultData<JobOfferResponse> saveJobOffer(@RequestBody JobOfferSaveRequest jobOfferSaveRequest) {
         JobOffers saveJobOffer = this.modelMapperService.forRequest().map(jobOfferSaveRequest, JobOffers.class);
         this.jobOffersService.save(saveJobOffer);
-        return ResultHelper.success(this.modelMapperService.forResponse().map(saveJobOffer, JobOfferResponse.class));
+        return ResultHelper.created(this.modelMapperService.forResponse().map(saveJobOffer, JobOfferResponse.class));
     }
 
     @PutMapping("/{offer-id}")

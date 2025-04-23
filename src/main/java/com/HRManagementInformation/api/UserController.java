@@ -53,7 +53,7 @@ public class UserController {
     public ResultData<UserResponse> saveUser(@RequestBody UserSaveRequest userSaveRequest) {
         User saveUser = this.modelMapperService.forRequest().map(userSaveRequest, User.class);
         this.userService.save(saveUser);
-        return ResultHelper.success(this.modelMapperService.forResponse().map(saveUser, UserResponse.class));
+        return ResultHelper.created(this.modelMapperService.forResponse().map(saveUser, UserResponse.class));
     }
 
     // Update User
