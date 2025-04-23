@@ -2,7 +2,6 @@ package com.HRManagementInformation.dto.response;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.math.BigDecimal;
 
 public class EmployeeAttendanceResponse {
     private int attendanceId;
@@ -11,7 +10,7 @@ public class EmployeeAttendanceResponse {
     private Date attendanceDate;
     private Time checkInTime;
     private Time checkOutTime;
-    private BigDecimal overtimeHours;
+    private int overtimeHours;
 
     public EmployeeAttendanceResponse() {
     }
@@ -64,11 +63,11 @@ public class EmployeeAttendanceResponse {
         this.checkOutTime = checkOutTime;
     }
 
-    public BigDecimal getOvertimeHours() {
+    public int getOvertimeHours() {
         return overtimeHours;
     }
 
-    public void setOvertimeHours(BigDecimal overtimeHours) {
+    public void setOvertimeHours(int overtimeHours) {
         this.overtimeHours = overtimeHours;
     }
 }

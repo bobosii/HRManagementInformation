@@ -3,7 +3,6 @@ package com.HRManagementInformation.entities;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
-import java.math.BigDecimal;
 
 @Entity
 public class EmployeeAttendance {
@@ -18,12 +17,12 @@ public class EmployeeAttendance {
     private Date attendanceDate;
     private Time checkInTime;
     private Time checkOutTime;
-    private BigDecimal overtimeHours;
+    private int overtimeHours;
 
     public EmployeeAttendance() {
     }
 
-    public EmployeeAttendance(int attendanceId, User user, Date attendanceDate, Time checkInTime, Time checkOutTime, BigDecimal overtimeHours) {
+    public EmployeeAttendance(int attendanceId, User user, Date attendanceDate, Time checkInTime, Time checkOutTime, int overtimeHours) {
         this.attendanceId = attendanceId;
         this.user = user;
         this.attendanceDate = attendanceDate;
@@ -72,11 +71,11 @@ public class EmployeeAttendance {
         this.checkOutTime = checkOutTime;
     }
 
-    public BigDecimal getOvertimeHours() {
+    public int getOvertimeHours() {
         return overtimeHours;
     }
 
-    public void setOvertimeHours(BigDecimal overtimeHours) {
+    public void setOvertimeHours(int overtimeHours) {
         this.overtimeHours = overtimeHours;
     }
 }

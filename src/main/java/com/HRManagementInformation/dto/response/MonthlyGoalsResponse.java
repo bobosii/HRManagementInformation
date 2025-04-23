@@ -1,7 +1,5 @@
 package com.HRManagementInformation.dto.response;
 
-import java.math.BigDecimal;
-
 public class MonthlyGoalsResponse {
     private int goalId;
     private int userId;
@@ -9,7 +7,7 @@ public class MonthlyGoalsResponse {
     private int year;
     private int month;
     private String targetDescription;
-    private BigDecimal goalValue;
+    private int goalValue;
     private String status;
 
     public MonthlyGoalsResponse() {
@@ -63,11 +61,11 @@ public class MonthlyGoalsResponse {
         this.targetDescription = targetDescription;
     }
 
-    public BigDecimal getGoalValue() {
+    public int getGoalValue() {
         return goalValue;
     }
 
-    public void setGoalValue(BigDecimal goalValue) {
+    public void setGoalValue(int goalValue) {
         this.goalValue = goalValue;
     }
 

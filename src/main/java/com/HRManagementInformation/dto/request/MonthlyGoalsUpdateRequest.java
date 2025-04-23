@@ -1,14 +1,12 @@
 package com.HRManagementInformation.dto.request;
 
-import java.math.BigDecimal;
-
 public class MonthlyGoalsUpdateRequest {
     private int goalId;
     private int userId;
     private int year;
     private int month;
     private String targetDescription;
-    private BigDecimal goalValue;
+    private int goalValue;
     private String status;
 
     public MonthlyGoalsUpdateRequest() {
@@ -54,11 +52,11 @@ public class MonthlyGoalsUpdateRequest {
         this.targetDescription = targetDescription;
     }
 
-    public BigDecimal getGoalValue() {
+    public int getGoalValue() {
         return goalValue;
     }
 
-    public void setGoalValue(BigDecimal goalValue) {
+    public void setGoalValue(int goalValue) {
         this.goalValue = goalValue;
     }
 

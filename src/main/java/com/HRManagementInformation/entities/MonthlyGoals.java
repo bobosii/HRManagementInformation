@@ -1,7 +1,6 @@
 package com.HRManagementInformation.entities;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 public class MonthlyGoals {
@@ -16,13 +15,13 @@ public class MonthlyGoals {
     private int year;
     private int month;
     private String targetDescription;
-    private BigDecimal goalValue;
+    private int goalValue;
     private String status;
 
     public MonthlyGoals() {
     }
 
-    public MonthlyGoals(int goalId, User user, int year, int month, String targetDescription, BigDecimal goalValue, String status) {
+    public MonthlyGoals(int goalId, User user, int year, int month, String targetDescription, int goalValue, String status) {
         this.goalId = goalId;
         this.user = user;
         this.year = year;
@@ -72,11 +71,11 @@ public class MonthlyGoals {
         this.targetDescription = targetDescription;
     }
 
-    public BigDecimal getGoalValue() {
+    public int getGoalValue() {
         return goalValue;
     }
 
-    public void setGoalValue(BigDecimal goalValue) {
+    public void setGoalValue(int goalValue) {
         this.goalValue = goalValue;
     }
 
