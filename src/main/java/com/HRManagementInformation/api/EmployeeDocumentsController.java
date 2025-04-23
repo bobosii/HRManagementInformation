@@ -56,7 +56,7 @@ public class EmployeeDocumentsController {
     public ResultData<EmployeeDocumentsResponse> saveDocument(@RequestBody EmployeeDocumentsSaveRequest documentSaveRequest) {
         EmployeeDocuments saveDocument = this.modelMapperService.forRequest().map(documentSaveRequest, EmployeeDocuments.class);
         this.employeeDocumentsService.save(saveDocument);
-        return ResultHelper.success(this.modelMapperService.forResponse().map(saveDocument, EmployeeDocumentsResponse.class));
+        return ResultHelper.created(this.modelMapperService.forResponse().map(saveDocument, EmployeeDocumentsResponse.class));
     }
 
     // Update document

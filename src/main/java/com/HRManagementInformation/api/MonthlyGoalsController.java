@@ -56,7 +56,7 @@ public class MonthlyGoalsController {
     public ResultData<MonthlyGoalsResponse> saveGoal(@RequestBody MonthlyGoalsSaveRequest goalSaveRequest) {
         MonthlyGoals saveGoal = this.modelMapperService.forRequest().map(goalSaveRequest, MonthlyGoals.class);
         this.monthlyGoalsService.save(saveGoal);
-        return ResultHelper.success(this.modelMapperService.forResponse().map(saveGoal, MonthlyGoalsResponse.class));
+        return ResultHelper.created(this.modelMapperService.forResponse().map(saveGoal, MonthlyGoalsResponse.class));
     }
 
     // Update goal

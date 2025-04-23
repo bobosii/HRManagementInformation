@@ -53,7 +53,7 @@ public class InterviewController {
     public ResultData<InterviewResponse> saveInterview(@RequestBody InterviewSaveRequest interviewSaveRequest) {
         Interviews saveInterview = this.modelMapperService.forRequest().map(interviewSaveRequest, Interviews.class);
         this.interviewsService.save(saveInterview);
-        return ResultHelper.success(this.modelMapperService.forResponse().map(saveInterview, InterviewResponse.class));
+        return ResultHelper.created(this.modelMapperService.forResponse().map(saveInterview, InterviewResponse.class));
     }
 
     @PutMapping("/{interview-id}")

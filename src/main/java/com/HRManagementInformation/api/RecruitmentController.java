@@ -54,7 +54,7 @@ public class RecruitmentController {
     public ResultData<RecruitmentResponse> saveRecruitment(@RequestBody RecruitmentSaveRequest recruitmentSaveRequest){
         Recruitment saveRecruitment = this.modelMapperService.forRequest().map(recruitmentSaveRequest, Recruitment.class);
         this.recruitmentService.save(saveRecruitment);
-        return ResultHelper.success(this.modelMapperService.forResponse().map(saveRecruitment, RecruitmentResponse.class));
+        return ResultHelper.created(this.modelMapperService.forResponse().map(saveRecruitment, RecruitmentResponse.class));
     }
 
     @PutMapping("/{recruitment-id}")
