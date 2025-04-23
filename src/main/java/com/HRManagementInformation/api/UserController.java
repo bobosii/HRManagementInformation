@@ -55,22 +55,3 @@ public class UserController {
         this.userService.save(saveUser);
         return ResultHelper.success(this.modelMapperService.forResponse().map(saveUser, UserResponse.class));
     }
-
-    // Update user
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResultData<UserResponse> updateUser(@PathVariable("id") int id, @RequestBody UserUpdateRequest userUpdateRequest) {
-        User updateUser = this.modelMapperService.forRequest().map(userUpdateRequest, User.class);
-        updateUser.setId(id); // Ensure the ID from the path is set
-        this.userService.update(updateUser);
-        return ResultHelper.success(this.modelMapperService.forResponse().map(updateUser, UserResponse.class));
-    }
-
-    // Delete User
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Result deleteUser(@PathVariable("id") int id) {
-        userService.delete(id);
-        return ResultHelper.ok();
-    }
-}
