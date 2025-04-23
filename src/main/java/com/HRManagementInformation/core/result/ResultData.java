@@ -11,4 +11,12 @@ public class ResultData<T> extends Result {
         super(status, message, code);
         this.data = data;
     }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
 }

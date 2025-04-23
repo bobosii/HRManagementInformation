@@ -3,7 +3,6 @@ package com.HRManagementInformation.core.utilies;
 
 import com.HRManagementInformation.core.result.Result;
 import com.HRManagementInformation.core.result.ResultData;
-
 // Bu sinif ekstra kod yazmamamiz icin static result metodlari iceriyor.
 // Ornek kullanimlarini benim yazdigim User controller kisiminda gorebilirsiniz.
 
