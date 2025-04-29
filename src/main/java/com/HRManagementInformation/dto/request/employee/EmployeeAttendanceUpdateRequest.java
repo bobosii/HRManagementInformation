@@ -1,16 +1,26 @@
-package com.HRManagementInformation.dto.request;
+package com.HRManagementInformation.dto.request.employee;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.math.BigDecimal;
 
-public class EmployeeAttendanceSaveRequest {
+public class EmployeeAttendanceUpdateRequest {
+    private int attendanceId;
     private int userId;
     private Date attendanceDate;
     private Time checkInTime;
     private Time checkOutTime;
-    private int overtimeHours;
+    private BigDecimal overtimeHours;
 
-    public EmployeeAttendanceSaveRequest() {
+    public EmployeeAttendanceUpdateRequest() {
+    }
+
+    public int getAttendanceId() {
+        return attendanceId;
+    }
+
+    public void setAttendanceId(int attendanceId) {
+        this.attendanceId = attendanceId;
     }
 
     public int getUserId() {
@@ -45,11 +55,11 @@ public class EmployeeAttendanceSaveRequest {
         this.checkOutTime = checkOutTime;
     }
 
-    public int getOvertimeHours() {
+    public BigDecimal getOvertimeHours() {
         return overtimeHours;
     }
 
-    public void setOvertimeHours(int overtimeHours) {
+    public void setOvertimeHours(BigDecimal overtimeHours) {
         this.overtimeHours = overtimeHours;
     }
 }

@@ -1,4 +1,4 @@
-package com.HRManagementInformation.dto.request;
+package com.HRManagementInformation.dto.request.interview;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

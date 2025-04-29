@@ -1,23 +1,16 @@
-package com.HRManagementInformation.dto.request;
+package com.HRManagementInformation.dto.request.monthlyGoals;
 
-public class MonthlyGoalsUpdateRequest {
-    private int goalId;
+import java.math.BigDecimal;
+
+public class MonthlyGoalsSaveRequest {
     private int userId;
     private int year;
     private int month;
     private String targetDescription;
-    private int goalValue;
+    private BigDecimal goalValue;
     private String status;
 
-    public MonthlyGoalsUpdateRequest() {
-    }
-
-    public int getGoalId() {
-        return goalId;
-    }
-
-    public void setGoalId(int goalId) {
-        this.goalId = goalId;
+    public MonthlyGoalsSaveRequest() {
     }
 
     public int getUserId() {
@@ -52,11 +45,11 @@ public class MonthlyGoalsUpdateRequest {
         this.targetDescription = targetDescription;
     }
 
-    public int getGoalValue() {
+    public BigDecimal getGoalValue() {
         return goalValue;
     }
 
-    public void setGoalValue(int goalValue) {
+    public void setGoalValue(BigDecimal goalValue) {
         this.goalValue = goalValue;
     }
 

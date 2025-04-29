@@ -5,7 +5,7 @@ import com.HRManagementInformation.core.config.modelMapper.IModelMapperService;
 import com.HRManagementInformation.core.result.Result;
 import com.HRManagementInformation.core.result.ResultData;
 import com.HRManagementInformation.core.utilies.ResultHelper;
-import com.HRManagementInformation.dto.request.RoleRequest;
+import com.HRManagementInformation.dto.request.role.RoleRequest;
 import com.HRManagementInformation.dto.response.RoleResponse;
 import com.HRManagementInformation.entities.Role;
 import org.springframework.beans.factory.annotation.Autowired;

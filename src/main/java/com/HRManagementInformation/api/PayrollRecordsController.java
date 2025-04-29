@@ -6,7 +6,7 @@ import com.HRManagementInformation.core.config.modelMapper.IModelMapperService;
 import com.HRManagementInformation.core.result.Result;
 import com.HRManagementInformation.core.result.ResultData;
 import com.HRManagementInformation.core.utilies.ResultHelper;
-import com.HRManagementInformation.dto.request.PayrollRecordRequest;
+import com.HRManagementInformation.dto.request.payrollRecord.PayrollRecordRequest;
 import com.HRManagementInformation.dto.response.PayrollRecordsResponse;
 import com.HRManagementInformation.entities.PayrollRecord;
 import com.HRManagementInformation.entities.User;
