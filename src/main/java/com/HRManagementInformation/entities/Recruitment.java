@@ -11,8 +11,9 @@ public class Recruitment {
     private int recruitmentId;
     private String candidateName;
     private Date applicationDate;
-    //@ManyToOne
-    //private int roleId;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role; // Bu bize bir adet Role nesnesi verecek.
     private String status;
     private String notes;
 

@@ -3,6 +3,7 @@ package com.HRManagementInformation.entities;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 public class User {
@@ -15,16 +16,22 @@ public class User {
     private String phone;
     private String password;
     private String tcNo;
-//    @ManyToOne
-//    private Role role; // Todo
-//    private Department department; // Todo
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+    @OneToMany(mappedBy = "user")
+    private List<PayrollRecord> payrollRecords;
+
     private Date hireDate;
     private Date birthDate;
 
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String email, String phone, String password, String tcNo, Date hireDate, Date birthDate) {
+    public User(int id, String firstName, String lastName, String email, String phone, String password, String tcNo, Role role, Department department, PayrollRecord payrollRecord, List<PayrollRecord> payrollRecord1, Date hireDate, Date birthDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,6 +39,9 @@ public class User {
         this.phone = phone;
         this.password = password;
         this.tcNo = tcNo;
+        this.role = role;
+        this.department = department;
+        this.payrollRecords = payrollRecord1;
         this.hireDate = hireDate;
         this.birthDate = birthDate;
     }
