@@ -12,7 +12,7 @@ public class Department {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "departments")
+    @OneToMany(mappedBy = "department")
     private List<User> users;
 
     public Department(){}
