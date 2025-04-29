@@ -16,6 +16,10 @@ public class ResultHelper {
         return new ResultData<>(false,Messages.VALIDATE_ERROR,"400",data);
     }
 
+    public static <T> ResultData<T> updated(T data){
+        return new ResultData<>(true, Messages.UPDATED,"200",data);
+    }
+
     public static <T> ResultData<T> success(T data){
         return new ResultData<>(true,Messages.OK,"201",data);
     }
@@ -26,5 +30,9 @@ public class ResultHelper {
 
     public static Result ok(){
         return new Result(true, Messages.OK, "200");
+    }
+
+    public static Result deleted(){
+        return new Result(true, Messages.DELETED,"200");
     }
 }
