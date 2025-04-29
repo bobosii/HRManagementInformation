@@ -22,16 +22,19 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
+
     @OneToMany(mappedBy = "user")
     private List<PayrollRecord> payrollRecords;
+
+    @OneToMany(mappedBy = "user")
+    private List<Salary> salaries;
 
     private Date hireDate;
     private Date birthDate;
 
-    public User() {
-    }
+    public User() {}
 
-    public User(int id, String firstName, String lastName, String email, String phone, String password, String tcNo, Role role, Department department, PayrollRecord payrollRecord, List<PayrollRecord> payrollRecord1, Date hireDate, Date birthDate) {
+    public User(int id, String firstName, String lastName, String email, String phone, String password, String tcNo, Role role, Department department, PayrollRecord payrollRecord, List<PayrollRecord> payrollRecord1, List<Salary> salaries, Date hireDate, Date birthDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,8 +45,41 @@ public class User {
         this.role = role;
         this.department = department;
         this.payrollRecords = payrollRecord1;
+        this.salaries = salaries;
         this.hireDate = hireDate;
         this.birthDate = birthDate;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public List<PayrollRecord> getPayrollRecords() {
+        return payrollRecords;
+    }
+
+    public void setPayrollRecords(List<PayrollRecord> payrollRecords) {
+        this.payrollRecords = payrollRecords;
+    }
+
+    public List<Salary> getSalaries() {
+        return salaries;
+    }
+
+    public void setSalaries(List<Salary> salaries) {
+        this.salaries = salaries;
     }
 
     public int getId() {
