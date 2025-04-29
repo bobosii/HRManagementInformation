@@ -1,4 +1,4 @@
-package com.HRManagementInformation.dto.request;
+package com.HRManagementInformation.dto.request.documentType;
 
 import jakarta.validation.constraints.NotBlank;
 

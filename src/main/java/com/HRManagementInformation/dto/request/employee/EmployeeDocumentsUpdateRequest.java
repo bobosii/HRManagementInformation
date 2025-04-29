@@ -1,14 +1,23 @@
-package com.HRManagementInformation.dto.request;
+package com.HRManagementInformation.dto.request.employee;
 
 import java.sql.Date;
 
-public class EmployeeDocumentsSaveRequest {
+public class EmployeeDocumentsUpdateRequest {
+    private int documentId;
     private int userId;
     private String filePath;
     private Date uploadDate;
     private Date validUntil;
 
-    public EmployeeDocumentsSaveRequest() {
+    public EmployeeDocumentsUpdateRequest() {
+    }
+
+    public int getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(int documentId) {
+        this.documentId = documentId;
     }
 
     public int getUserId() {

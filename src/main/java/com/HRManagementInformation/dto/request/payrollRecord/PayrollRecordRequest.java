@@ -1,4 +1,4 @@
-package com.HRManagementInformation.dto.request;
+package com.HRManagementInformation.dto.request.payrollRecord;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;

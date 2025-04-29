@@ -1,35 +1,40 @@
-package com.HRManagementInformation.dto.request;
+package com.HRManagementInformation.dto.request.leave;
+
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public class LeaveRequestUpdateRequest {
+public class LeaveRequestSaveRequest {
 
-    private int id;
+    @NotNull(message = "Kullanıcı ID boş olamaz.")
     private int userId;
+
+    @NotNull(message = "İzin tipi ID boş olamaz.")
     private int leaveTypeId;
+
+    @NotNull(message = "Başlangıç tarihi boş olamaz.")
+    @FutureOrPresent(message = "Başlangıç tarihi bugünden önce olamaz.")
     private LocalDate startDate;
+
+    @NotNull(message = "Bitiş tarihi boş olamaz.")
     private LocalDate endDate;
+
+    @Min(value = 0, message = "Toplam gün 0'dan küçük olamaz.")
     private double totalDays;
+
     private String status;
 
-    public LeaveRequestUpdateRequest() {}
+    public LeaveRequestSaveRequest() {}
 
-    public LeaveRequestUpdateRequest(int id, int userId, int leaveTypeId, LocalDate startDate, LocalDate endDate, double totalDays, String status) {
-        this.id = id;
+    public LeaveRequestSaveRequest(int userId, int leaveTypeId, LocalDate startDate, LocalDate endDate, double totalDays, String status) {
         this.userId = userId;
         this.leaveTypeId = leaveTypeId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalDays = totalDays;
         this.status = status;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getUserId() {
