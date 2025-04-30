@@ -29,12 +29,15 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Salary> salaries;
 
+    @OneToOne(mappedBy = "user")
+    private ExitRecord exitRecord;
+
     private Date hireDate;
     private Date birthDate;
 
     public User() {}
 
-    public User(int id, String firstName, String lastName, String email, String phone, String password, String tcNo, Role role, Department department, PayrollRecord payrollRecord, List<PayrollRecord> payrollRecord1, List<Salary> salaries, Date hireDate, Date birthDate) {
+    public User(int id, String firstName, String lastName, String email, String phone, String password, String tcNo, Role role, Department department, PayrollRecord payrollRecord, List<PayrollRecord> payrollRecord1, List<Salary> salaries, ExitRecord exitRecord, Date hireDate, Date birthDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -46,8 +49,17 @@ public class User {
         this.department = department;
         this.payrollRecords = payrollRecord1;
         this.salaries = salaries;
+        this.exitRecord = exitRecord;
         this.hireDate = hireDate;
         this.birthDate = birthDate;
+    }
+
+    public ExitRecord getExitRecord() {
+        return exitRecord;
+    }
+
+    public void setExitRecord(ExitRecord exitRecord) {
+        this.exitRecord = exitRecord;
     }
 
     public Role getRole() {
