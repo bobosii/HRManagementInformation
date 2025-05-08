@@ -60,12 +60,16 @@ public class MonthlyGoalsController {
     }
 
     // Update goal
-    @PutMapping()
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<MonthlyGoalsResponse> updateGoal(@RequestBody MonthlyGoalsUpdateRequest goalUpdateRequest) {
-        MonthlyGoals updateGoal = this.modelMapperService.forRequest().map(goalUpdateRequest, MonthlyGoals.class);
-        this.monthlyGoalsService.update(updateGoal);
-        return ResultHelper.success(this.modelMapperService.forResponse().map(updateGoal, MonthlyGoalsResponse.class));
+    public ResultData<MonthlyGoalsResponse> updateGoal(
+            @PathVariable("id") int id,
+            @RequestBody MonthlyGoalsUpdateRequest goalUpdateRequest) {
+        MonthlyGoals existingGoal = this.monthlyGoalsService.get(id);
+        this.modelMapperService.forRequest().map(goalUpdateRequest, existingGoal);
+        this.monthlyGoalsService.update(existingGoal);
+
+        return ResultHelper.success(this.modelMapperService.forResponse().map(existingGoal, MonthlyGoalsResponse.class));
     }
 
     // Delete goal

@@ -60,12 +60,16 @@ public class EmployeeAttendanceController {
     }
 
     // Update attendance
-    @PutMapping()
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<EmployeeAttendanceResponse> updateAttendance(@RequestBody EmployeeAttendanceUpdateRequest attendanceUpdateRequest) {
-        EmployeeAttendance updateAttendance = this.modelMapperService.forRequest().map(attendanceUpdateRequest, EmployeeAttendance.class);
-        this.employeeAttendanceService.update(updateAttendance);
-        return ResultHelper.success(this.modelMapperService.forResponse().map(updateAttendance, EmployeeAttendanceResponse.class));
+    public ResultData<EmployeeAttendanceResponse> updateAttendance(
+            @PathVariable("id") int id,
+            @RequestBody EmployeeAttendanceUpdateRequest attendanceUpdateRequest) {
+        EmployeeAttendance existingAttendance = this.employeeAttendanceService.get(id);
+        this.modelMapperService.forRequest().map(attendanceUpdateRequest, existingAttendance);
+        this.employeeAttendanceService.update(existingAttendance);
+
+        return ResultHelper.success(this.modelMapperService.forResponse().map(existingAttendance, EmployeeAttendanceResponse.class));
     }
 
     // Delete attendance

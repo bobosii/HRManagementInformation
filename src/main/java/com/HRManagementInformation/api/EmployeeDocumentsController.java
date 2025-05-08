@@ -60,12 +60,16 @@ public class EmployeeDocumentsController {
     }
 
     // Update document
-    @PutMapping()
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<EmployeeDocumentsResponse> updateDocument(@RequestBody EmployeeDocumentsUpdateRequest documentUpdateRequest) {
-        EmployeeDocuments updateDocument = this.modelMapperService.forRequest().map(documentUpdateRequest, EmployeeDocuments.class);
-        this.employeeDocumentsService.update(updateDocument);
-        return ResultHelper.success(this.modelMapperService.forResponse().map(updateDocument, EmployeeDocumentsResponse.class));
+    public ResultData<EmployeeDocumentsResponse> updateDocument(
+            @PathVariable("id") int id,
+            @RequestBody EmployeeDocumentsUpdateRequest documentUpdateRequest) {
+        EmployeeDocuments existingDocument = this.employeeDocumentsService.get(id);
+        this.modelMapperService.forRequest().map(documentUpdateRequest, existingDocument);
+        this.employeeDocumentsService.update(existingDocument);
+
+        return ResultHelper.success(this.modelMapperService.forResponse().map(existingDocument, EmployeeDocumentsResponse.class));
     }
 
     // Delete document
