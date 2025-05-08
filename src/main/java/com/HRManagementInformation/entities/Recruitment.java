@@ -14,6 +14,8 @@ public class Recruitment {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role; // Bu bize bir adet Role nesnesi verecek.
+    @OneToOne(mappedBy = "recruitment")
+    private JobOffers jobOffer;
     private String status;
     private String notes;
 

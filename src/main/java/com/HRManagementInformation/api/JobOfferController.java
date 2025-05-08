@@ -41,10 +41,10 @@ public class JobOfferController {
         return ResultHelper.success(jobOfferResponses);
     }
 
-    @GetMapping("/{offer-id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<JobOfferResponse> getJobOfferById(@PathVariable("offer-id") int offerId) {
-        JobOffers jobOffer = this.jobOffersService.get(offerId);
+    public ResultData<JobOfferResponse> getJobOfferById(@PathVariable("id") int id) {
+        JobOffers jobOffer = this.jobOffersService.get(id);
         return ResultHelper.success(this.modelMapperService.forResponse().map(jobOffer, JobOfferResponse.class));
     }
 
@@ -56,21 +56,21 @@ public class JobOfferController {
         return ResultHelper.created(this.modelMapperService.forResponse().map(saveJobOffer, JobOfferResponse.class));
     }
 
-    @PutMapping("/{offer-id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<JobOfferResponse> updateJobOffer(@PathVariable("offer-id") int offerId,
+    public ResultData<JobOfferResponse> updateJobOffer(@PathVariable("id") int id,
                                                      @RequestBody JobOfferUpdateRequest jobOfferUpdateRequest) {
-        JobOffers existingJobOffer = this.jobOffersService.get(offerId);
+        JobOffers existingJobOffer = this.jobOffersService.get(id);
         this.modelMapperService.forRequest().map(jobOfferUpdateRequest, existingJobOffer);
         this.jobOffersService.update(existingJobOffer);
 
         return ResultHelper.success(this.modelMapperService.forResponse().map(existingJobOffer, JobOfferResponse.class));
     }
 
-    @DeleteMapping("/{offer-id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Result deleteJobOffer(@PathVariable("offer-id") int offerId) {
-        this.jobOffersService.delete(offerId);
+    public Result deleteJobOffer(@PathVariable("id") int id) {
+        this.jobOffersService.delete(id);
         return ResultHelper.ok();
     }
 } 

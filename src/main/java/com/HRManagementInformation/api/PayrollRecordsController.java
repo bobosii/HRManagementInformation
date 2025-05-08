@@ -71,24 +71,11 @@ public class PayrollRecordsController {
     public ResultData<PayrollRecordsResponse> updatePayrolls(
             @PathVariable("id") int id,
             @RequestBody PayrollRecordRequest payrollRecordRequest) {
-
         PayrollRecord existingRecord = payrollRecordsService.get(id);
-
-        User user = userService.get(payrollRecordRequest.getUserId());
-
-        existingRecord.setUser(user);
-        existingRecord.setPayroll_date(payrollRecordRequest.getPayrollDate());
-        existingRecord.setBase_salary(payrollRecordRequest.getBaseSalary());
-        existingRecord.setBonuses(payrollRecordRequest.getBonuses());
-        existingRecord.setDeductions(payrollRecordRequest.getDeductions());
-        existingRecord.setNetSalary(payrollRecordRequest.getNetSalary());
-
+        this.modelMapperService.forRequest().map(payrollRecordRequest, existingRecord);
         payrollRecordsService.update(existingRecord);
 
-        PayrollRecordsResponse response = modelMapperService.forResponse()
-                .map(existingRecord, PayrollRecordsResponse.class);
-
-        return ResultHelper.success(response);
+        return ResultHelper.success(this.modelMapperService.forResponse().map(existingRecord, PayrollRecordsResponse.class));
     }
 
     @DeleteMapping("/{id}")

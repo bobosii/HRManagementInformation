@@ -8,8 +8,11 @@ public class Interviews {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int interviewId;
-    //@OneToOne
-    //private int userId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private Date interviewDate;
     private String feedback;
 

@@ -41,10 +41,10 @@ public class InterviewController {
         return ResultHelper.success(interviewResponses);
     }
 
-    @GetMapping("/{interview-id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<InterviewResponse> getInterviewById(@PathVariable("interview-id") int interviewId) {
-        Interviews interview = this.interviewsService.get(interviewId);
+    public ResultData<InterviewResponse> getInterviewById(@PathVariable("id") int id) {
+        Interviews interview = this.interviewsService.get(id);
         return ResultHelper.success(this.modelMapperService.forResponse().map(interview, InterviewResponse.class));
     }
 
@@ -56,21 +56,21 @@ public class InterviewController {
         return ResultHelper.created(this.modelMapperService.forResponse().map(saveInterview, InterviewResponse.class));
     }
 
-    @PutMapping("/{interview-id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<InterviewResponse> updateInterview(@PathVariable("interview-id") int interviewId,
+    public ResultData<InterviewResponse> updateInterview(@PathVariable("id") int id,
                                                        @RequestBody InterviewUpdateRequest interviewUpdateRequest) {
-        Interviews existingInterview = this.interviewsService.get(interviewId);
+        Interviews existingInterview = this.interviewsService.get(id);
         this.modelMapperService.forRequest().map(interviewUpdateRequest, existingInterview);
         this.interviewsService.update(existingInterview);
 
         return ResultHelper.success(this.modelMapperService.forResponse().map(existingInterview, InterviewResponse.class));
     }
 
-    @DeleteMapping("/{interview-id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Result deleteInterview(@PathVariable("interview-id") int interviewId) {
-        this.interviewsService.delete(interviewId);
+    public Result deleteInterview(@PathVariable("id") int id) {
+        this.interviewsService.delete(id);
         return ResultHelper.ok();
     }
 } 

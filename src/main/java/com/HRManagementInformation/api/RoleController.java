@@ -59,10 +59,10 @@ public class RoleController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<RoleResponse> updateRole(
-            @PathVariable("id") int id
-            ,@RequestBody RoleRequest roleRequest){
+            @PathVariable("id") int id,
+            @RequestBody RoleRequest roleRequest) {
         Role existingRole = this.roleService.get(id);
-        this.modelMapperService.forRequest().map(existingRole, roleRequest);
+        this.modelMapperService.forRequest().map(roleRequest, existingRole);
         this.roleService.update(existingRole);
 
         return ResultHelper.success(this.modelMapperService.forResponse().map(existingRole, RoleResponse.class));

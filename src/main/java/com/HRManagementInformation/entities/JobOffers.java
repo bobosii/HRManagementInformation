@@ -1,16 +1,24 @@
 package com.HRManagementInformation.entities;
 
-import jakarta.persistence.*;
-
 import java.sql.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class JobOffers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int offerId;
-    //@OneToOne
-    //private int recruitmentId;
+
+    @OneToOne
+    @JoinColumn(name = "recruitment_id")
+    private Recruitment recruitment;
+
     private Date offerDate;
     private double offeredSalary;
     private String offerStatus;

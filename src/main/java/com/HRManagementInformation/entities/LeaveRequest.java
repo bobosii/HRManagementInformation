@@ -11,9 +11,11 @@ public class LeaveRequest {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "leave_type_id")
     private LeaveType leaveType;
 
     private LocalDate startDate;

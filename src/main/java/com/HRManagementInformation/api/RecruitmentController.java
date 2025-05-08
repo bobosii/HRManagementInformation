@@ -1,5 +1,20 @@
 package com.HRManagementInformation.api;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.HRManagementInformation.business.abstracts.IRecruitmentService;
 import com.HRManagementInformation.core.config.modelMapper.IModelMapperService;
 import com.HRManagementInformation.core.result.Result;
@@ -9,12 +24,6 @@ import com.HRManagementInformation.dto.request.recruitment.RecruitmentSaveReques
 import com.HRManagementInformation.dto.request.recruitment.RecruitmentUpdateRequest;
 import com.HRManagementInformation.dto.response.RecruitmentResponse;
 import com.HRManagementInformation.entities.Recruitment;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/recruitment")
@@ -41,10 +50,10 @@ public class RecruitmentController {
         return ResultHelper.success(recruitmentResponses);
     }
 
-    @GetMapping("/{recruitment-id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<RecruitmentResponse> getRecruitmentById(@PathVariable("recruitment-id") int recruitmentId){
-        Recruitment recruitment = this.recruitmentService.get(recruitmentId);
+    public ResultData<RecruitmentResponse> getRecruitmentById(@PathVariable("id") int id){
+        Recruitment recruitment = this.recruitmentService.get(id);
 
         return ResultHelper.success(this.modelMapperService.forResponse().map(recruitment, RecruitmentResponse.class));
     }
@@ -57,22 +66,22 @@ public class RecruitmentController {
         return ResultHelper.created(this.modelMapperService.forResponse().map(saveRecruitment, RecruitmentResponse.class));
     }
 
-    @PutMapping("/{recruitment-id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<RecruitmentResponse> updateRecruitment(
-            @PathVariable("recruitment-id") int recruitmentId,
+            @PathVariable("id") int id,
             @RequestBody RecruitmentUpdateRequest recruitmentUpdateRequest){
-        Recruitment existingRecruitment = this.recruitmentService.get(recruitmentId);
+        Recruitment existingRecruitment = this.recruitmentService.get(id);
         this.modelMapperService.forRequest().map(recruitmentUpdateRequest, existingRecruitment);
         this.recruitmentService.update(existingRecruitment);
 
         return ResultHelper.success(this.modelMapperService.forResponse().map(existingRecruitment, RecruitmentResponse.class));
     }
 
-    @DeleteMapping("/{recruitment-id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Result deleteRecruitment(@PathVariable("recruitment-id") int recruitmentId){
-        recruitmentService.delete(recruitmentId);
+    public Result deleteRecruitment(@PathVariable("id") int id){
+        recruitmentService.delete(id);
         return ResultHelper.ok();
     }
 

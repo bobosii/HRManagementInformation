@@ -53,22 +53,16 @@ public class DepartmentController {
         return ResultHelper.created(this.modelMapper.forResponse().map(createDepartment, DepartmentResponse.class));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<DepartmentResponse> updateDepartment(@RequestBody DepartmentUpdateRequest departmentUpdateRequest){
-        Department department = departmentsService.get(departmentUpdateRequest.getId());
+    public ResultData<DepartmentResponse> updateDepartment(
+            @PathVariable("id") int id,
+            @RequestBody DepartmentUpdateRequest departmentUpdateRequest){
+        Department existingDepartment = departmentsService.get(id);
+        this.modelMapper.forRequest().map(departmentUpdateRequest, existingDepartment);
+        departmentsService.update(existingDepartment);
 
-        department.setName(departmentUpdateRequest.getName());
-        department.setDescription(departmentUpdateRequest.getDescription());
-
-        Department updatedDepartment = departmentsService.save(department);
-
-        DepartmentResponse response = new DepartmentResponse(
-                updatedDepartment.getName(),
-                updatedDepartment.getDescription()
-        );
-
-        return ResultHelper.updated(response);
+        return ResultHelper.success(this.modelMapper.forResponse().map(existingDepartment, DepartmentResponse.class));
     }
 
     @DeleteMapping("/{id}")
