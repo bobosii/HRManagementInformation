@@ -24,6 +24,9 @@ public class User {
     private Department department;
 
     @OneToMany(mappedBy = "user")
+    private List<InsuranceRecord> insuranceRecords;
+
+    @OneToMany(mappedBy = "user")
     private List<PayrollRecord> payrollRecords;
 
     @OneToMany(mappedBy = "user")
