@@ -6,6 +6,7 @@ import com.HRManagementInformation.core.result.Result;
 import com.HRManagementInformation.core.result.ResultData;
 import com.HRManagementInformation.core.utilies.ResultHelper;
 import com.HRManagementInformation.dto.request.exitRecord.ExitRecordSaveRequest;
+import com.HRManagementInformation.dto.request.exitRecord.ExitRecordUpdateRequest;
 import com.HRManagementInformation.dto.response.ExitRecordResponse;
 import com.HRManagementInformation.entities.ExitRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,17 @@ public class ExitRecordController {
         return ResultHelper.created(this.modelMapperService.forResponse().map(saveRequest, ExitRecordResponse.class));
     }
 
-    // todo PutMapping (Update)
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<ExitRecordResponse> updateExitRecord(
+            @PathVariable("id") int id,
+            @RequestBody ExitRecordUpdateRequest exitRecordUpdateRequest){
+        ExitRecord exitRecord = this.exitRecordService.get(id);
+        this.modelMapperService.forRequest().map(exitRecordUpdateRequest,exitRecord);
+        this.exitRecordService.update(exitRecord);
+
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(exitRecord,ExitRecordResponse.class));
+    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
