@@ -64,7 +64,7 @@ public class JobOfferController {
         this.modelMapperService.forRequest().map(jobOfferUpdateRequest, existingJobOffer);
         this.jobOffersService.update(existingJobOffer);
 
-        return ResultHelper.success(this.modelMapperService.forResponse().map(existingJobOffer, JobOfferResponse.class));
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(existingJobOffer, JobOfferResponse.class));
     }
 
     @DeleteMapping("/{id}")

@@ -69,7 +69,7 @@ public class MonthlyGoalsController {
         this.modelMapperService.forRequest().map(goalUpdateRequest, existingGoal);
         this.monthlyGoalsService.update(existingGoal);
 
-        return ResultHelper.success(this.modelMapperService.forResponse().map(existingGoal, MonthlyGoalsResponse.class));
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(existingGoal, MonthlyGoalsResponse.class));
     }
 
     // Delete goal

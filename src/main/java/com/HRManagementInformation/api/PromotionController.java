@@ -64,7 +64,7 @@ public class PromotionController {
         this.modelMapperService.forRequest().map(promotionUpdateRequest, promotion);
         this.promotionService.update(promotion);
 
-        return ResultHelper.success(this.modelMapperService.forResponse().map(promotion, PromotionResponse.class));
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(promotion, PromotionResponse.class));
     }
 
     @DeleteMapping("/{id}")

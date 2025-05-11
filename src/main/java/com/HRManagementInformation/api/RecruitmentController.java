@@ -75,7 +75,7 @@ public class RecruitmentController {
         this.modelMapperService.forRequest().map(recruitmentUpdateRequest, existingRecruitment);
         this.recruitmentService.update(existingRecruitment);
 
-        return ResultHelper.success(this.modelMapperService.forResponse().map(existingRecruitment, RecruitmentResponse.class));
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(existingRecruitment, RecruitmentResponse.class));
     }
 
     @DeleteMapping("/{id}")

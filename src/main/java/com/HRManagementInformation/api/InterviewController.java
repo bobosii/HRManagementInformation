@@ -64,7 +64,7 @@ public class InterviewController {
         this.modelMapperService.forRequest().map(interviewUpdateRequest, existingInterview);
         this.interviewsService.update(existingInterview);
 
-        return ResultHelper.success(this.modelMapperService.forResponse().map(existingInterview, InterviewResponse.class));
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(existingInterview, InterviewResponse.class));
     }
 
     @DeleteMapping("/{id}")

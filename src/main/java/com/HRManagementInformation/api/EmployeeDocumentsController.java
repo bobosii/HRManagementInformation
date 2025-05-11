@@ -69,7 +69,7 @@ public class EmployeeDocumentsController {
         this.modelMapperService.forRequest().map(documentUpdateRequest, existingDocument);
         this.employeeDocumentsService.update(existingDocument);
 
-        return ResultHelper.success(this.modelMapperService.forResponse().map(existingDocument, EmployeeDocumentsResponse.class));
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(existingDocument, EmployeeDocumentsResponse.class));
     }
 
     // Delete document
