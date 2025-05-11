@@ -32,7 +32,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Salary> salaries;
 
-    @OneToOne(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HrMeetingNote> hrMeetingNotes;
+
     private ExitRecord exitRecord;
 
     private Date hireDate;
