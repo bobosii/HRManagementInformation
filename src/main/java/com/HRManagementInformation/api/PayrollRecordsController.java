@@ -75,7 +75,7 @@ public class PayrollRecordsController {
         this.modelMapperService.forRequest().map(payrollRecordRequest, existingRecord);
         payrollRecordsService.update(existingRecord);
 
-        return ResultHelper.success(this.modelMapperService.forResponse().map(existingRecord, PayrollRecordsResponse.class));
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(existingRecord, PayrollRecordsResponse.class));
     }
 
     @DeleteMapping("/{id}")

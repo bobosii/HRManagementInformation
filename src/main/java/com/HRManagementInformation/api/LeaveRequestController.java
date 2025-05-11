@@ -58,7 +58,7 @@ public class LeaveRequestController {
         LeaveRequest existing = leaveRequestService.get(id);
         modelMapperService.forRequest().map(request, existing);
         leaveRequestService.update(existing);
-        return ResultHelper.success(modelMapperService.forResponse().map(existing, LeaveRequestResponse.class));
+        return ResultHelper.updated(modelMapperService.forResponse().map(existing, LeaveRequestResponse.class));
     }
 
     @DeleteMapping("/{id}")

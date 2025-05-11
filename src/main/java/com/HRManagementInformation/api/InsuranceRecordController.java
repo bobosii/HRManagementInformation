@@ -64,7 +64,7 @@ public class InsuranceRecordController {
         this.modelMapperService.forRequest().map(insuranceRecordUpdateRequest,insuranceRecord);
         this.insuranceRecordService.update(insuranceRecord);
 
-        return ResultHelper.success(this.modelMapperService.forResponse().map(insuranceRecord, InsuranceRecordResponse.class));
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(insuranceRecord, InsuranceRecordResponse.class));
     }
 
     @DeleteMapping("/{id}")

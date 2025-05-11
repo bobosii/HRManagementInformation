@@ -69,7 +69,7 @@ public class EmployeeAttendanceController {
         this.modelMapperService.forRequest().map(attendanceUpdateRequest, existingAttendance);
         this.employeeAttendanceService.update(existingAttendance);
 
-        return ResultHelper.success(this.modelMapperService.forResponse().map(existingAttendance, EmployeeAttendanceResponse.class));
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(existingAttendance, EmployeeAttendanceResponse.class));
     }
 
     // Delete attendance

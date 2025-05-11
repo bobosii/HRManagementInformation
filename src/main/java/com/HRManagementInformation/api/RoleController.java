@@ -65,7 +65,7 @@ public class RoleController {
         this.modelMapperService.forRequest().map(roleRequest, existingRole);
         this.roleService.update(existingRole);
 
-        return ResultHelper.success(this.modelMapperService.forResponse().map(existingRole, RoleResponse.class));
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(existingRole, RoleResponse.class));
     }
 
 

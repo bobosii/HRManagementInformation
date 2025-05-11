@@ -58,7 +58,7 @@ public class DocumentTypeController {
         DocumentType existing = documentTypeService.get(id);
         modelMapperService.forRequest().map(request, existing);
         documentTypeService.update(existing);
-        return ResultHelper.success(modelMapperService.forResponse().map(existing, DocumentTypeResponse.class));
+        return ResultHelper.updated(modelMapperService.forResponse().map(existing, DocumentTypeResponse.class));
     }
 
     @DeleteMapping("/{id}")

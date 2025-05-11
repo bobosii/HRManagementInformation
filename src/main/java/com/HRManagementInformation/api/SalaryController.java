@@ -5,8 +5,12 @@ import com.HRManagementInformation.core.config.modelMapper.IModelMapperService;
 import com.HRManagementInformation.core.result.Result;
 import com.HRManagementInformation.core.result.ResultData;
 import com.HRManagementInformation.core.utilies.ResultHelper;
+import com.HRManagementInformation.dto.request.role.RoleRequest;
 import com.HRManagementInformation.dto.request.salary.SalarySaveRequest;
+import com.HRManagementInformation.dto.request.salary.SalaryUpdateRequest;
+import com.HRManagementInformation.dto.response.RoleResponse;
 import com.HRManagementInformation.dto.response.SalaryResponse;
+import com.HRManagementInformation.entities.Role;
 import com.HRManagementInformation.entities.Salary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,7 +58,18 @@ public class SalaryController {
         return ResultHelper.created(this.modelMapperService.forResponse().map(salary, SalaryResponse.class));
     }
 
-    // todo! Update kisimi sonrasinda eklenecek
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<SalaryResponse> updateSalary
+            (@PathVariable("id") int id,
+             @RequestBody SalaryUpdateRequest salaryUpdateRequest)
+    {
+        Salary updateSalary = this.salaryService.get(id);
+        this.modelMapperService.forRequest().map(salaryUpdateRequest, updateSalary);
+        this.salaryService.update(updateSalary);
+        return ResultHelper.updated(this.modelMapperService.forResponse().map(updateSalary,SalaryResponse.class));
+
+    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
