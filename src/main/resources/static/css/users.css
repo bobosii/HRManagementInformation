@@ -1,0 +1,21 @@
+/* users.css - Kullanıcılar sayfası için özel stiller */
+.user-form-modal { display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.2); padding:32px; z-index:1000; max-width:400px; width:90%; }
+.user-form-modal.active { display:block; }
+.user-form-modal h2 { margin-top:0; }
+.user-form-modal label { display:block; margin-top:12px; }
+.user-form-modal input { width:100%; padding:8px; margin-top:4px; border-radius:4px; border:1px solid #ccc; }
+.user-form-modal button { margin-top:16px; background:#223042; color:#fff; border:none; padding:10px 24px; border-radius:4px; cursor:pointer; }
+.user-form-modal button:hover { background:#2d3e50; }
+.user-table { max-width:900px; margin:24px auto; background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04); padding:24px; }
+.user-table table { width:100%; border-collapse:collapse; }
+.user-table th, .user-table td { padding:10px; border-bottom:1px solid #eee; text-align:left; }
+.user-table th { background:#f4f6f8; }
+.user-table tr:hover { background:#f9fafb; }
+.action-btn { margin-right:8px; padding:6px 12px; border-radius:4px; border:none; cursor:pointer; }
+.action-btn.details { background:#4caf50; color:#fff; }
+.action-btn.delete { background:#e53935; color:#fff; }
+.add-user-btn { margin: 24px auto 0 auto; display: block; background: #4fc3f7; color: #223042; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; padding: 12px 24px; font-size: 1rem; }
+.add-user-btn:hover { background: #039be5; color: #fff; }
+.modal-close { float:right; background:none; border:none; font-size:1.2rem; color:#888; cursor:pointer; }
+.modal-close:hover { color:#e53935; }
+.error-message { color: #e53935; margin-top: 8px; } 
