@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HR Yönetim Bilgi Sistemi</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css"/>
+</head>
+<body>
+    <header>
+        <h1>HR Yönetim Bilgi Sistemi</h1>
+        <nav>
+            <ul class="navbar">
+                <li><a th:href="@{/main}">Ana Sayfa</a></li>
+                <li><a th:href="@{/users}">Kullanıcılar</a></li>
+                <li><a th:href="@{/departments}">Departmanlar</a></li>
+                <li><a th:href="@{/roles}">Roller</a></li>
+                <li><a th:href="@{/salary}">Maaşlar</a></li>
+                <li><a th:href="@{/leave-requests}">İzinler</a></li>
+                <li><a th:href="@{/payroll}">Bordro</a></li>
+                <li><a th:href="@{/promotion}">Terfiler</a></li>
+                <li><a th:href="@{/recruitment}">İşe Alım</a></li>
+                <li><a th:href="@{/job-offer}">İş Teklifleri</a></li>
+                <li><a th:href="@{/interview}">Mülakatlar</a></li>
+                <li><a th:href="@{/exitrecord}">Çıkış Kayıtları</a></li>
+                <li><a th:href="@{/hrmeetingnote}">HR Notları</a></li>
+                <li><a th:href="@{/insurancerecord}">Sigorta</a></li>
+                <li><a th:href="@{/documents}">Belgeler</a></li>
+                <li><a th:href="@{/attendance}">Devam Takibi</a></li>
+                <li><a th:href="@{/goals}">Aylık Hedefler</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="welcome">
+            <h2>Hoşgeldiniz!</h2>
+            <p>Yukarıdaki menüden istediğiniz modüle geçiş yapabilirsiniz.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 HR Yönetim Bilgi Sistemi</p>
+    </footer>
+</body>
+</html> 
