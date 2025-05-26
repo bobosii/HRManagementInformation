@@ -9,6 +9,7 @@ import com.HRManagementInformation.dto.request.leaveType.LeaveTypeSaveRequest;
 import com.HRManagementInformation.dto.request.leaveType.LeaveTypeUpdateRequest;
 import com.HRManagementInformation.dto.response.LeaveTypeResponse;
 import com.HRManagementInformation.entities.LeaveType;
+import com.HRManagementInformation.entities.LeaveTypeEnum;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>İzinler - HR Yönetim Bilgi Sistemi</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css"/>
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .leave-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .leave-list {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .leave-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .leave-item:last-child {
+            border-bottom: none;
+        }
+        .leave-info {
+            flex: 1;
+        }
+        .leave-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #000;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        .error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .success-message {
+            color: #28a745;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .status-pending {
+            color: #ffc107;
+        }
+        .status-approved {
+            color: #28a745;
+        }
+        .status-rejected {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HR Yönetim Bilgi Sistemi</h1>
+        <nav>
+            <ul class="navbar">
+                <li><a th:href="@{/main}">Ana Sayfa</a></li>
+                <li><a th:href="@{/users}">Kullanıcılar</a></li>
+                <li><a th:href="@{/departments}">Departmanlar</a></li>
+                <li><a th:href="@{/roles}">Roller</a></li>
+                <li><a th:href="@{/salary}">Maaşlar</a></li>
+                <li><a th:href="@{/leave-requests}" class="active">İzinler</a></li>
+                <li><a th:href="@{/payroll}">Bordro</a></li>
+                <li><a th:href="@{/promotion}">Terfiler</a></li>
+                <li><a th:href="@{/recruitment}">İşe Alım</a></li>
+                <li><a th:href="@{/job-offer}">İş Teklifleri</a></li>
+                <li><a th:href="@{/interview}">Mülakatlar</a></li>
+                <li><a th:href="@{/exitrecord}">Çıkış Kayıtları</a></li>
+                <li><a th:href="@{/hrmeetingnote}">HR Notları</a></li>
+                <li><a th:href="@{/insurancerecord}">Sigorta</a></li>
+                <li><a th:href="@{/documents}">Belgeler</a></li>
+                <li><a th:href="@{/attendance}">Devam Takibi</a></li>
+                <li><a th:href="@{/goals}">Aylık Hedefler</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="leave-form">
+            <h2>Yeni İzin Talebi</h2>
+            <form id="leaveForm">
+                <div class="form-group">
+                    <label for="userId">Çalışan:</label>
+                    <select id="userId" name="userId" required>
+                        <option value="">Seçiniz</option>
+                        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.firstName + ' ' + user.lastName}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="leaveType">İzin Tipi:</label>
+                    <select id="leaveType" name="leaveType" required>
+                        <option value="">Seçiniz</option>
+                        <option th:each="type : ${leaveTypes}" th:value="${type.name()}" th:text="${type.displayName}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="startDate">Başlangıç Tarihi:</label>
+                    <input type="date" id="startDate" name="startDate" required/>
+                </div>
+                <div class="form-group">
+                    <label for="endDate">Bitiş Tarihi:</label>
+                    <input type="date" id="endDate" name="endDate" required/>
+                </div>
+                <div class="form-group">
+                    <label for="totalDays">Toplam Gün:</label>
+                    <input type="number" id="totalDays" name="totalDays" step="0.5" min="0" required/>
+                </div>
+                <button type="submit" class="btn btn-primary">İzin Talebi Oluştur</button>
+                <div id="formMessage" class="error-message"></div>
+            </form>
+        </div>
+
+        <div class="leave-list">
+            <h2>İzin Talepleri</h2>
+            <div th:each="leave : ${leaveRequests}" class="leave-item" th:attr="data-leave-id=${leave.id}">
+                <div class="leave-info">
+                    <h3 th:text="${leave.userFullName}">Çalışan Adı</h3>
+                    <p th:text="${'İzin Tipi: ' + leave.leaveType}">İzin Tipi</p>
+                    <p th:text="${'Başlangıç: ' + #dates.format(leave.startDate, 'dd/MM/yyyy')}">Başlangıç Tarihi</p>
+                    <p th:text="${'Bitiş: ' + #dates.format(leave.endDate, 'dd/MM/yyyy')}">Bitiş Tarihi</p>
+                    <p th:text="${'Toplam Gün: ' + leave.totalDays}">Toplam Gün</p>
+                    <p th:class="${'status-' + leave.status.toLowerCase()}" th:text="${'Durum: ' + leave.status}">Durum</p>
+                </div>
+                <div class="leave-actions">
+                    <button class="btn btn-warning" th:onclick="'editLeave(' + ${leave.id} + ')'">Düzenle</button>
+                    <button class="btn btn-danger" th:onclick="'deleteLeave(' + ${leave.id} + ')'">Sil</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('leaveForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formMessage = document.getElementById('formMessage');
+            const formData = {
+                userId: parseInt(document.getElementById('userId').value),
+                leaveType: document.getElementById('leaveType').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                totalDays: parseFloat(document.getElementById('totalDays').value),
+                status: 'PENDING'
+            };
+            fetch('/api/leave-requests', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    formMessage.className = 'success-message';
+                    formMessage.textContent = 'İzin talebi başarıyla oluşturuldu.';
+                    this.reset();
+                    setTimeout(() => { window.location.reload(); }, 1000);
+                } else {
+                    formMessage.className = 'error-message';
+                    formMessage.textContent = 'İzin talebi oluşturulurken bir hata oluştu.';
+                }
+            })
+            .catch(() => {
+                formMessage.className = 'error-message';
+                formMessage.textContent = 'İzin talebi oluşturulurken bir hata oluştu.';
+            });
+        });
+        function editLeave(id) { window.location.href = '/leave-requests/edit/' + id; }
+        function deleteLeave(id) {
+            if (confirm('Bu izin talebini silmek istediğinizden emin misiniz?')) {
+                fetch('/api/leave-requests/' + id, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        const leaveItem = document.querySelector(`[data-leave-id="${id}"]`);
+                        if (leaveItem) { leaveItem.remove(); }
+                        window.location.reload();
+                    } else { alert('İzin talebi silinirken bir hata oluştu.'); }
+                })
+                .catch(() => { alert('İzin talebi silinirken bir hata oluştu.'); });
+            }
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Departmanlar - HR Yönetim Bilgi Sistemi</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css"/>
+    <style>
+        .department-form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .department-list {
+            margin: 20px;
+        }
+        .department-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: black;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HR Yönetim Bilgi Sistemi</h1>
+        <nav>
+            <ul class="navbar">
+                <li><a th:href="@{/main}">Ana Sayfa</a></li>
+                <li><a th:href="@{/users}">Kullanıcılar</a></li>
+                <li><a th:href="@{/departments}" class="active">Departmanlar</a></li>
+                <li><a th:href="@{/roles}">Roller</a></li>
+                <li><a th:href="@{/salary}">Maaşlar</a></li>
+                <li><a th:href="@{/leave-requests}">İzinler</a></li>
+                <li><a th:href="@{/payroll}">Bordro</a></li>
+                <li><a th:href="@{/promotion}">Terfiler</a></li>
+                <li><a th:href="@{/recruitment}">İşe Alım</a></li>
+                <li><a th:href="@{/job-offer}">İş Teklifleri</a></li>
+                <li><a th:href="@{/interview}">Mülakatlar</a></li>
+                <li><a th:href="@{/exitrecord}">Çıkış Kayıtları</a></li>
+                <li><a th:href="@{/hrmeetingnote}">HR Notları</a></li>
+                <li><a th:href="@{/insurancerecord}">Sigorta</a></li>
+                <li><a th:href="@{/documents}">Belgeler</a></li>
+                <li><a th:href="@{/attendance}">Devam Takibi</a></li>
+                <li><a th:href="@{/goals}">Aylık Hedefler</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Yeni Departman Ekleme Formu -->
+        <div class="department-form">
+            <h2>Yeni Departman Ekle</h2>
+            <form id="departmentForm">
+                <div class="form-group">
+                    <label for="name">Departman Adı:</label>
+                    <input type="text" id="name" name="name" required/>
+                </div>
+                <div class="form-group">
+                    <label for="description">Açıklama:</label>
+                    <textarea id="description" name="description"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Departman Ekle</button>
+            </form>
+        </div>
+
+        <!-- Departman Listesi -->
+        <div class="department-list">
+            <h2>Departman Listesi</h2>
+            <div th:each="department : ${departments}" class="department-item">
+                <div>
+                    <h3 th:text="${department.name}">Departman Adı</h3>
+                    <p th:text="${department.description}">Açıklama</p>
+                </div>
+                <div>
+                    <button class="btn btn-warning" 
+                            th:onclick="'editDepartment(' + ${department.id} + ')'">Düzenle</button>
+                    <button class="btn btn-danger" 
+                            th:onclick="'deleteDepartment(' + ${department.id} + ')'">Sil</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('departmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                description: document.getElementById('description').value
+            };
+
+            fetch('/api/departments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Departman eklenirken bir hata oluştu.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Departman eklenirken bir hata oluştu.');
+            });
+        });
+
+        function editDepartment(id) {
+            window.location.href = '/departments/edit/' + id;
+        }
+
+        function deleteDepartment(id) {
+            if (confirm('Bu departmanı silmek istediğinizden emin misiniz?')) {
+                fetch('/api/departments/' + id, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert('Departman silinirken bir hata oluştu.');
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html> 

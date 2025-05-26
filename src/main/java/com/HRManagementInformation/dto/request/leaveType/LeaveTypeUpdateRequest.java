@@ -11,6 +11,8 @@ public class LeaveTypeUpdateRequest {
 
     private String description;
 
+    private String leaveType;
+
     public LeaveTypeUpdateRequest() {}
 
     public LeaveTypeUpdateRequest(int id, String leaveTypeName, String description) {
@@ -41,5 +43,13 @@ public class LeaveTypeUpdateRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getLeaveType() {
+        return leaveType;
+    }
+
+    public void setLeaveType(String leaveType) {
+        this.leaveType = leaveType;
     }
 }
