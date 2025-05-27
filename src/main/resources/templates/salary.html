@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Maaşlar - HR Yönetim Bilgi Sistemi</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css"/>
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .salary-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .salary-list {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .salary-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .salary-item:last-child {
+            border-bottom: none;
+        }
+        .salary-info {
+            flex: 1;
+        }
+        .salary-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #000;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        .error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .success-message {
+            color: #28a745;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HR Yönetim Bilgi Sistemi</h1>
+        <nav>
+            <ul class="navbar">
+                <li><a th:href="@{/main}">Ana Sayfa</a></li>
+                <li><a th:href="@{/users}">Kullanıcılar</a></li>
+                <li><a th:href="@{/departments}">Departmanlar</a></li>
+                <li><a th:href="@{/roles}">Roller</a></li>
+                <li><a th:href="@{/salary}" class="active">Maaşlar</a></li>
+                <li><a th:href="@{/leave-requests}">İzinler</a></li>
+                <li><a th:href="@{/payroll}">Bordro</a></li>
+                <li><a th:href="@{/promotion}">Terfiler</a></li>
+                <li><a th:href="@{/recruitment}">İşe Alım</a></li>
+                <li><a th:href="@{/job-offer}">İş Teklifleri</a></li>
+                <li><a th:href="@{/interview}">Mülakatlar</a></li>
+                <li><a th:href="@{/exitrecord}">Çıkış Kayıtları</a></li>
+                <li><a th:href="@{/hrmeetingnote}">HR Notları</a></li>
+                <li><a th:href="@{/insurancerecord}">Sigorta</a></li>
+                <li><a th:href="@{/documents}">Belgeler</a></li>
+                <li><a th:href="@{/attendance}">Devam Takibi</a></li>
+                <li><a th:href="@{/goals}">Aylık Hedefler</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="salary-form">
+            <h2>Yeni Maaş Kaydı Ekle</h2>
+            <form id="salaryForm">
+                <div class="form-group">
+                    <label for="userId">Çalışan:</label>
+                    <select id="userId" name="userId" required>
+                        <option value="">Seçiniz</option>
+                        <option th:each="user : ${users}" 
+                                th:value="${user.id}" 
+                                th:text="${user.firstName + ' ' + user.lastName}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="salaryAmount">Maaş Tutarı:</label>
+                    <input type="number" id="salaryAmount" name="salaryAmount" step="0.01" required/>
+                </div>
+                <div class="form-group">
+                    <label for="paymentDate">Ödeme Tarihi:</label>
+                    <input type="date" id="paymentDate" name="paymentDate" required/>
+                </div>
+                <button type="submit" class="btn btn-primary">Maaş Kaydı Ekle</button>
+                <div id="formMessage" class="error-message"></div>
+            </form>
+        </div>
+
+        <div class="salary-list">
+            <h2>Maaş Kayıtları</h2>
+            <div th:each="salary : ${salaries}" class="salary-item" th:attr="data-salary-id=${salary.id}">
+                <div class="salary-info">
+                    <h3 th:text="${salary.user.firstName + ' ' + salary.user.lastName}">Çalışan Adı</h3>
+                    <p th:text="${'Maaş: ' + #numbers.formatDecimal(salary.salaryAmount, 1, 'POINT', 2, 'COMMA') + ' TL'}">Maaş Tutarı</p>
+                    <p th:text="${'Ödeme Tarihi: ' + #dates.format(salary.paymentDate, 'dd/MM/yyyy')}">Ödeme Tarihi</p>
+                </div>
+                <div class="salary-actions">
+                    <button class="btn btn-warning" 
+                            th:onclick="'editSalary(' + ${salary.id} + ')'">Düzenle</button>
+                    <button class="btn btn-danger" 
+                            th:onclick="'deleteSalary(' + ${salary.id} + ')'">Sil</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('salaryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formMessage = document.getElementById('formMessage');
+            
+            const formData = {
+                userId: parseInt(document.getElementById('userId').value),
+                salaryAmount: parseFloat(document.getElementById('salaryAmount').value),
+                paymentDate: document.getElementById('paymentDate').value
+            };
+
+            fetch('/salary/api', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                formMessage.className = 'success-message';
+                formMessage.textContent = 'Maaş kaydı başarıyla eklendi.';
+                this.reset();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            })
+            .catch(() => {
+                formMessage.className = 'error-message';
+                formMessage.textContent = 'Maaş kaydı eklenirken bir hata oluştu.';
+            });
+        });
+
+        function editSalary(id) {
+            window.location.href = '/salary/edit/' + id;
+        }
+
+        function deleteSalary(id) {
+            if (confirm('Bu maaş kaydını silmek istediğinizden emin misiniz?')) {
+                fetch('/salary/api/' + id, {
+                    method: 'DELETE'
+                })
+                .then(() => {
+                    const salaryItem = document.querySelector(`[data-salary-id="${id}"]`);
+                    if (salaryItem) {
+                        salaryItem.remove();
+                    }
+                    window.location.reload();
+                })
+                .catch(() => {
+                    alert('Maaş kaydı silinirken bir hata oluştu.');
+                });
+            }
+        }
+    </script>
+</body>
+</html> 

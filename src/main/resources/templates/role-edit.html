@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rol Düzenle - HR Yönetim Bilgi Sistemi</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css"/>
+    <style>
+        .edit-form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HR Yönetim Bilgi Sistemi</h1>
+        <nav>
+            <ul class="navbar">
+                <li><a th:href="@{/main}">Ana Sayfa</a></li>
+                <li><a th:href="@{/users}">Kullanıcılar</a></li>
+                <li><a th:href="@{/departments}">Departmanlar</a></li>
+                <li><a th:href="@{/roles}" class="active">Roller</a></li>
+                <li><a th:href="@{/salary}">Maaşlar</a></li>
+                <li><a th:href="@{/leave-requests}">İzinler</a></li>
+                <li><a th:href="@{/payroll}">Bordro</a></li>
+                <li><a th:href="@{/promotion}">Terfiler</a></li>
+                <li><a th:href="@{/recruitment}">İşe Alım</a></li>
+                <li><a th:href="@{/job-offer}">İş Teklifleri</a></li>
+                <li><a th:href="@{/interview}">Mülakatlar</a></li>
+                <li><a th:href="@{/exitrecord}">Çıkış Kayıtları</a></li>
+                <li><a th:href="@{/hrmeetingnote}">HR Notları</a></li>
+                <li><a th:href="@{/insurancerecord}">Sigorta</a></li>
+                <li><a th:href="@{/documents}">Belgeler</a></li>
+                <li><a th:href="@{/attendance}">Devam Takibi</a></li>
+                <li><a th:href="@{/goals}">Aylık Hedefler</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="edit-form">
+            <h2>Rol Bilgilerini Düzenle</h2>
+            <form id="editForm">
+                <input type="hidden" id="id" th:value="${role.id}"/>
+                
+                <div class="form-group">
+                    <label for="title">Rol Başlığı:</label>
+                    <input type="text" id="title" th:value="${role.title}" required/>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Açıklama:</label>
+                    <textarea id="description" rows="4" th:text="${role.description}"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                    <a th:href="@{/roles}" class="btn btn-secondary">İptal</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                id: document.getElementById('id').value,
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value
+            };
+
+            fetch('/api/role/' + formData.id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/roles';
+                } else {
+                    alert('Rol güncellenirken bir hata oluştu.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Rol güncellenirken bir hata oluştu.');
+            });
+        });
+    </script>
+</body>
+</html> 

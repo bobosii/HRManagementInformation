@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,5 +56,41 @@ public class MainPageController {
         model.addAttribute("departments", departments);
         model.addAttribute("roles", roles);
         return "users";
+    }
+
+    @GetMapping("/departments")
+    public String departmentsPage(Model model) {
+        List<Department> allDepartments = departmentsService.getAll();
+        List<DepartmentResponse> departments = allDepartments.stream()
+                .map(dept -> modelMapperService.forResponse().map(dept, DepartmentResponse.class))
+                .collect(Collectors.toList());
+        model.addAttribute("departments", departments);
+        model.addAttribute("newDepartment", new Department());
+        return "departments";
+    }
+
+    @GetMapping("/departments/edit/{id}")
+    public String editDepartmentPage(@PathVariable int id, Model model) {
+        Department department = departmentsService.get(id);
+        model.addAttribute("department", department);
+        return "department-edit";
+    }
+
+    @GetMapping("/roles")
+    public String rolesPage(Model model) {
+        List<Role> allRoles = roleService.getAll();
+        List<RoleResponse> roles = allRoles.stream()
+                .map(role -> modelMapperService.forResponse().map(role, RoleResponse.class))
+                .collect(Collectors.toList());
+        model.addAttribute("roles", roles);
+        model.addAttribute("newRole", new Role());
+        return "roles";
+    }
+
+    @GetMapping("/roles/edit/{id}")
+    public String editRolePage(@PathVariable int id, Model model) {
+        Role role = roleService.get(id);
+        model.addAttribute("role", role);
+        return "role-edit";
     }
 } 

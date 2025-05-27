@@ -9,76 +9,33 @@ import com.HRManagementInformation.core.utilies.ResultHelper;
 import com.HRManagementInformation.dto.request.salary.SalarySaveRequest;
 import com.HRManagementInformation.dto.request.salary.SalaryUpdateRequest;
 import com.HRManagementInformation.dto.response.SalaryResponse;
-import com.HRManagementInformation.dto.response.UserResponse;
 import com.HRManagementInformation.entities.Salary;
 import com.HRManagementInformation.entities.User;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/salary")
-public class SalaryController {
+@RestController
+@RequestMapping("/api/salary")
+public class SalaryApiController {
+    @Autowired
     private final ISalaryService salaryService;
+    @Autowired
     private final IModelMapperService modelMapperService;
+    @Autowired
     private final IUserService userService;
 
-    @Autowired
-    public SalaryController(ISalaryService salaryService, IModelMapperService modelMapperService, IUserService userService) {
+    public SalaryApiController(ISalaryService salaryService, IModelMapperService modelMapperService, IUserService userService) {
         this.salaryService = salaryService;
         this.modelMapperService = modelMapperService;
         this.userService = userService;
     }
 
-    @GetMapping("")
-    public String getSalaryPage(Model model) {
-        try {
-            List<Salary> salaries = this.salaryService.getAll();
-            List<User> users = this.userService.getAll();
-            
-            List<SalaryResponse> salaryResponses = salaries.stream()
-                .map(salary -> this.modelMapperService.forResponse().map(salary, SalaryResponse.class))
-                .collect(Collectors.toList());
-                
-            List<UserResponse> userResponses = users.stream()
-                .map(user -> this.modelMapperService.forResponse().map(user, UserResponse.class))
-                .collect(Collectors.toList());
-            
-            model.addAttribute("salaries", salaryResponses);
-            model.addAttribute("users", userResponses);
-            return "salary";
-        } catch (Exception e) {
-            model.addAttribute("error", "Maaş bilgileri yüklenirken bir hata oluştu: " + e.getMessage());
-            return "error";
-        }
-    }
-
-    @GetMapping("/edit/{id}")
-    public String getEditSalaryPage(@PathVariable("id") int id, Model model) {
-        try {
-            Salary salary = this.salaryService.get(id);
-            List<User> users = this.userService.getAll();
-            
-            List<UserResponse> userResponses = users.stream()
-                .map(user -> this.modelMapperService.forResponse().map(user, UserResponse.class))
-                .collect(Collectors.toList());
-            
-            model.addAttribute("salary", salary);
-            model.addAttribute("users", userResponses);
-            return "salary-edit";
-        } catch (Exception e) {
-            model.addAttribute("error", "Maaş bilgileri yüklenirken bir hata oluştu: " + e.getMessage());
-            return "error";
-        }
-    }
-
-    @GetMapping("/api")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<SalaryResponse>> getSalaries(){
         List<Salary> salaries = this.salaryService.getAll();
@@ -88,14 +45,14 @@ public class SalaryController {
         return ResultHelper.success(salaryResponses);
     }
 
-    @GetMapping("/api/{id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<SalaryResponse> getSalary(@PathVariable("id") int id){
         Salary salary = this.salaryService.get(id);
         return ResultHelper.success(this.modelMapperService.forResponse().map(salary, SalaryResponse.class));
     }
 
-    @PostMapping("/api")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<SalaryResponse> createSalary(@RequestBody SalarySaveRequest salarySaveRequest){
         try {
@@ -129,7 +86,7 @@ public class SalaryController {
         }
     }
 
-    @PutMapping("/api/{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<SalaryResponse> updateSalary(@PathVariable("id") int id,
                                                  @RequestBody SalaryUpdateRequest salaryUpdateRequest) {
@@ -153,10 +110,10 @@ public class SalaryController {
         }
     }
 
-    @DeleteMapping("/api/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result deleteSalary(@PathVariable("id") int id){
         this.salaryService.delete(id);
         return ResultHelper.ok();
     }
-}
+} 

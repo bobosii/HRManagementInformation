@@ -6,18 +6,16 @@ public class SalaryResponse {
     private int id;
     private double salaryAmount;
     private Date paymentDate;
-    private int userId;
-    private String userFullName;
+    private UserResponse user;
 
     public SalaryResponse() {
     }
 
-    public SalaryResponse(int id, double salaryAmount, Date paymentDate, int userId, String userFullName) {
+    public SalaryResponse(int id, double salaryAmount, Date paymentDate, UserResponse user) {
         this.id = id;
         this.salaryAmount = salaryAmount;
         this.paymentDate = paymentDate;
-        this.userId = userId;
-        this.userFullName = userFullName;
+        this.user = user;
     }
 
     // Getters & Setters
@@ -45,19 +43,11 @@ public class SalaryResponse {
         this.paymentDate = paymentDate;
     }
 
-    public int getUserId() {
-        return userId;
+    public UserResponse getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getUserFullName() {
-        return userFullName;
-    }
-
-    public void setUserFullName(String userFullName) {
-        this.userFullName = userFullName;
+    public void setUser(UserResponse user) {
+        this.user = user;
     }
 }
