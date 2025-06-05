@@ -1,70 +1,90 @@
 package com.HRManagementInformation.api;
 
 import com.HRManagementInformation.business.abstracts.ILeaveRequestService;
-import com.HRManagementInformation.core.config.modelMapper.IModelMapperService;
-import com.HRManagementInformation.core.result.Result;
-import com.HRManagementInformation.core.result.ResultData;
-import com.HRManagementInformation.core.utilies.ResultHelper;
-import com.HRManagementInformation.dto.request.leave.LeaveRequestSaveRequest;
-import com.HRManagementInformation.dto.request.leave.LeaveRequestUpdateRequest;
-import com.HRManagementInformation.dto.response.LeaveRequestResponse;
+import com.HRManagementInformation.business.abstracts.ILeaveTypeService;
+import com.HRManagementInformation.business.abstracts.IUserService;
 import com.HRManagementInformation.entities.LeaveRequest;
-import org.springframework.http.HttpStatus;
+import com.HRManagementInformation.entities.LeaveType;
+import com.HRManagementInformation.entities.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/api/leave-requests")
+@Controller
+@RequestMapping("/leave-requests")
 public class LeaveRequestController {
 
     private final ILeaveRequestService leaveRequestService;
-    private final IModelMapperService modelMapperService;
+    private final IUserService userService;
+    private final ILeaveTypeService leaveTypeService;
 
-    public LeaveRequestController(ILeaveRequestService leaveRequestService, IModelMapperService modelMapperService) {
+    public LeaveRequestController(ILeaveRequestService leaveRequestService,
+                                  IUserService userService,
+                                  ILeaveTypeService leaveTypeService) {
         this.leaveRequestService = leaveRequestService;
-        this.modelMapperService = modelMapperService;
+        this.userService = userService;
+        this.leaveTypeService = leaveTypeService;
     }
 
-    @GetMapping()
-    @ResponseStatus(HttpStatus.OK)
-    public ResultData<List<LeaveRequestResponse>> getAll() {
-        List<LeaveRequest> leaveRequests = leaveRequestService.getAll();
-        List<LeaveRequestResponse> responseList = leaveRequests.stream()
-                .map(lr -> modelMapperService.forResponse().map(lr, LeaveRequestResponse.class))
-                .collect(Collectors.toList());
-        return ResultHelper.success(responseList);
+    @GetMapping("/form")
+    public String showForm(Model model) {
+        model.addAttribute("users", userService.getAll());
+        model.addAttribute("leaveTypes", leaveTypeService.getAll());
+        model.addAttribute("leaveRequests", leaveRequestService.getAll());
+        return "leave-requests";
     }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResultData<LeaveRequestResponse> getById(@PathVariable("id") int id) {
-        LeaveRequest leaveRequest = leaveRequestService.get(id);
-        return ResultHelper.success(modelMapperService.forResponse().map(leaveRequest, LeaveRequestResponse.class));
+    @PostMapping("/submit-form")
+    public String submitLeaveForm(@RequestParam("userId") int userId,
+                                  @RequestParam("leaveTypeId") int leaveTypeId,
+                                  @RequestParam("startDate") String startDate,
+                                  @RequestParam("endDate") String endDate,
+                                  @RequestParam("reason") String reason) {
+        LeaveRequest request = new LeaveRequest();
+        request.setUser(userService.get(userId));
+        request.setLeaveType(leaveTypeService.get(leaveTypeId));
+        request.setStartDate(java.time.LocalDate.parse(startDate));
+        request.setEndDate(java.time.LocalDate.parse(endDate));
+        request.setTotalDays(ChronoUnit.DAYS.between(request.getStartDate(), request.getEndDate()) + 1);
+        request.setReason(reason);
+        request.setStatus("Beklemede");
+        leaveRequestService.save(request);
+        return "redirect:/leave-requests/form";
     }
 
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResultData<LeaveRequestResponse> save(@RequestBody LeaveRequestSaveRequest request) {
-        LeaveRequest entity = modelMapperService.forRequest().map(request, LeaveRequest.class);
-        LeaveRequest saved = leaveRequestService.save(entity);
-        return ResultHelper.created(modelMapperService.forResponse().map(saved, LeaveRequestResponse.class));
-    }
-
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResultData<LeaveRequestResponse> update(@PathVariable("id") int id, @RequestBody LeaveRequestUpdateRequest request) {
-        LeaveRequest existing = leaveRequestService.get(id);
-        modelMapperService.forRequest().map(request, existing);
-        leaveRequestService.update(existing);
-        return ResultHelper.updated(modelMapperService.forResponse().map(existing, LeaveRequestResponse.class));
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Result delete(@PathVariable("id") int id) {
+    @GetMapping("/delete/{id}")
+    public String deleteLeave(@PathVariable int id) {
         leaveRequestService.delete(id);
-        return ResultHelper.ok();
+        return "redirect:/leave-requests/form";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable int id, Model model) {
+        LeaveRequest leaveRequest = leaveRequestService.get(id);
+        model.addAttribute("leaveRequest", leaveRequest);
+        model.addAttribute("users", userService.getAll());
+        model.addAttribute("leaveTypes", leaveTypeService.getAll());
+        return "leave-requests-edit"; // Bunu da vereceğim
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateLeave(@PathVariable int id,
+                              @RequestParam("userId") int userId,
+                              @RequestParam("leaveTypeId") int leaveTypeId,
+                              @RequestParam("startDate") String startDate,
+                              @RequestParam("endDate") String endDate,
+                              @RequestParam("reason") String reason) {
+        LeaveRequest request = leaveRequestService.get(id);
+        request.setUser(userService.get(userId));
+        request.setLeaveType(leaveTypeService.get(leaveTypeId));
+        request.setStartDate(java.time.LocalDate.parse(startDate));
+        request.setEndDate(java.time.LocalDate.parse(endDate));
+        request.setTotalDays(ChronoUnit.DAYS.between(request.getStartDate(), request.getEndDate()) + 1);
+        request.setReason(reason);
+        leaveRequestService.update(request);
+        return "redirect:/leave-requests/form";
     }
 }
