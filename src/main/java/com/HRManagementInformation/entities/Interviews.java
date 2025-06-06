@@ -48,4 +48,12 @@ public class Interviews {
     public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
 }

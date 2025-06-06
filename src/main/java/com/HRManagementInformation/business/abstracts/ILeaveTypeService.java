@@ -7,6 +7,7 @@ public interface ILeaveTypeService {
     LeaveType save(LeaveType leaveType);
     LeaveType get(int id);
     LeaveType update(LeaveType leaveType);
-    List<LeaveType> getAll();
+    List<LeaveType> getAll(); // 💥 Bunu EKLE
     boolean delete(int id);
 }
+

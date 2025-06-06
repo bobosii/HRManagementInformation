@@ -1,11 +1,6 @@
 package com.HRManagementInformation.dto.request.user;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Positive;
-import org.hibernate.validator.constraints.NotBlank;
-
+import jakarta.validation.constraints.*;
 import java.sql.Date;
 
 public class UserSaveRequest {
@@ -13,26 +8,39 @@ public class UserSaveRequest {
     @Positive(message = "id pozitif bir deger olmak zorunda")
     @NotNull(message = "id degeri null veya bos olamaz")
     private int id;
+
     @NotBlank(message = "İsim alanı boş olamaz.")
     private String firstName;
+
     @NotBlank(message = "Soy isim alanı boş olamaz.")
     private String lastName;
+
     @NotBlank(message = "E-posta adresi boş olamaz.")
     @Email(message = "Geçerli bir e-posta adresi giriniz.")
     private String email;
+
     private String phone;
     private String password;
+
     @NotNull(message = "Tc kimlik numarası boş olamaz !")
     private String tcNo;
-//    @ManyToOne
-//    private Role role; // Todo
-//    private Department department; // Todo
+
+    @Positive(message = "Role ID pozitif olmalı")
+    private int roleId;
+
+    @Positive(message = "Department ID pozitif olmalı")
+    private int departmentId;
+
     private Date hireDate;
+
     @NotNull(message = "Doğum tarihi boş olamaz !")
     @Past(message = "Doğum tarihi geçmiş bir tarihte olmalıdır !")
     private Date birthDate;
 
-    public UserSaveRequest(int id, String firstName, String lastName, String email, String phone, String password, String tcNo, Date hireDate, Date birthDate) {
+    public UserSaveRequest() {}
+
+    public UserSaveRequest(int id, String firstName, String lastName, String email, String phone, String password,
+                           String tcNo, int roleId, int departmentId, Date hireDate, Date birthDate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,41 +48,41 @@ public class UserSaveRequest {
         this.phone = phone;
         this.password = password;
         this.tcNo = tcNo;
+        this.roleId = roleId;
+        this.departmentId = departmentId;
         this.hireDate = hireDate;
         this.birthDate = birthDate;
     }
 
-    @Positive(message = "id pozitif bir deger olmak zorunda")
-    @NotNull(message = "id degeri null veya bos olamaz")
     public int getId() {
         return id;
     }
 
-    public void setId(@Positive(message = "id pozitif bir deger olmak zorunda") @NotNull(message = "id degeri null veya bos olamaz") int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public @NotBlank(message = "İsim alanı boş olamaz.") String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(@NotBlank(message = "İsim alanı boş olamaz.") String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public @NotBlank(message = "Soy isim alanı boş olamaz.") String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(@NotBlank(message = "Soy isim alanı boş olamaz.") String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public @NotBlank(message = "E-posta adresi boş olamaz.") @Email(message = "Geçerli bir e-posta adresi giriniz.") String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(@NotBlank(message = "E-posta adresi boş olamaz.") @Email(message = "Geçerli bir e-posta adresi giriniz.") String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -94,12 +102,28 @@ public class UserSaveRequest {
         this.password = password;
     }
 
-    public @NotNull(message = "Tc kimlik numarası boş olamaz !") String getTcNo() {
+    public String getTcNo() {
         return tcNo;
     }
 
-    public void setTcNo(@NotNull(message = "Tc kimlik numarası boş olamaz !") String tcNo) {
+    public void setTcNo(String tcNo) {
         this.tcNo = tcNo;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
     }
 
     public Date getHireDate() {
@@ -110,11 +134,11 @@ public class UserSaveRequest {
         this.hireDate = hireDate;
     }
 
-    public @NotNull(message = "Doğum tarihi boş olamaz !") @Past(message = "Doğum tarihi geçmiş bir tarihte olmalıdır !") Date getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(@NotNull(message = "Doğum tarihi boş olamaz !") @Past(message = "Doğum tarihi geçmiş bir tarihte olmalıdır !") Date birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 }
