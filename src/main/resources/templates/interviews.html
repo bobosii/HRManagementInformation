@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mülakatlar - HR Yönetim Bilgi Sistemi</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css"/>
+    <style>
+        .interview-form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .interview-list {
+            margin: 20px;
+        }
+        .interview-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: black;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>HR Yönetim Bilgi Sistemi</h1>
+    <nav>
+        <ul class="navbar">
+            <li><a th:href="@{/main}">Ana Sayfa</a></li>
+            <li><a th:href="@{/users}">Kullanıcılar</a></li>
+            <li><a th:href="@{/departments}">Departmanlar</a></li>
+            <li><a th:href="@{/roles}">Roller</a></li>
+            <li><a th:href="@{/salary}">Maaşlar</a></li>
+            <li><a th:href="@{/leave-requests}">İzinler</a></li>
+            <li><a th:href="@{/payroll}">Bordro</a></li>
+            <li><a th:href="@{/promotion}">Terfiler</a></li>
+            <li><a th:href="@{/recruitment}">İşe Alım</a></li>
+            <li><a th:href="@{/job-offer}">İş Teklifleri</a></li>
+            <li><a th:href="@{/interview}" class="active">Mülakatlar</a></li>
+            <li><a th:href="@{/exitrecord}">Çıkış Kayıtları</a></li>
+            <li><a th:href="@{/hrmeetingnote}">HR Notları</a></li>
+            <li><a th:href="@{/insurancerecord}">Sigorta</a></li>
+            <li><a th:href="@{/documents}">Belgeler</a></li>
+            <li><a th:href="@{/attendance}">Devam Takibi</a></li>
+            <li><a th:href="@{/goals}">Aylık Hedefler</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="interview-list">
+    <h2 style="text-align: center;">Mülakatlar</h2>
+    <div th:each="interview : ${interviews}" class="interview-item">
+        <div>
+            <strong th:text="${interview.user.firstName + ' ' + interview.user.lastName}">Ad Soyad</strong> |
+            <span th:text="${#dates.format(interview.interviewDate, 'yyyy-MM-dd')}">2025-06-06</span> |
+            <em th:text="${interview.feedback}">Geri bildirim</em>
+        </div>
+        <div>
+            <a th:href="@{'/interview/edit/' + ${interview.interviewId}}" class="btn btn-warning">Düzenle</a>
+            <form th:action="@{'/interview/delete/' + ${interview.interviewId}}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Sil</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="interview-form">
+    <h2 style="text-align: center;">Yeni Mülakat Ekle</h2>
+    <form th:action="@{/interview/save}" method="post">
+        <div class="form-group">
+            <label for="userId">Kullanıcı</label>
+            <select id="userId" name="userId" required>
+                <option value="" disabled selected>Kullanıcı seçin</option>
+                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.firstName + ' ' + user.lastName}">Kullanıcı</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="interviewDate">Mülakat Tarihi</label>
+            <input type="date" id="interviewDate" name="interviewDate" required>
+        </div>
+        <div class="form-group">
+            <label for="feedback">Geri Bildirim</label>
+            <textarea id="feedback" name="feedback" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
+</section>
+
+</body>
+</html>

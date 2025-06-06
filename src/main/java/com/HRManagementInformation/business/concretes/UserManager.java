@@ -43,4 +43,9 @@ public class UserManager implements IUserService {
         userRepository.delete(user);
         return true;
     }
+    @Override
+public User getById(int id) {
+    return userRepository.findById(id).orElseThrow();
+}
+
 }

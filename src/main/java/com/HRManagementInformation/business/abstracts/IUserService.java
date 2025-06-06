@@ -10,4 +10,6 @@ public interface IUserService {
     User update(User user);
     List<User> getAll();
     boolean delete(int id);
+    User getById(int id);
+
 }

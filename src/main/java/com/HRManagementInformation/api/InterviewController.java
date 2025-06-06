@@ -1,6 +1,7 @@
 package com.HRManagementInformation.api;
 
 import com.HRManagementInformation.business.abstracts.IInterviewsService;
+import com.HRManagementInformation.business.abstracts.IUserService;
 import com.HRManagementInformation.core.config.modelMapper.IModelMapperService;
 import com.HRManagementInformation.core.result.Result;
 import com.HRManagementInformation.core.result.ResultData;
@@ -9,9 +10,14 @@ import com.HRManagementInformation.dto.request.interview.InterviewSaveRequest;
 import com.HRManagementInformation.dto.request.interview.InterviewUpdateRequest;
 import com.HRManagementInformation.dto.response.InterviewResponse;
 import com.HRManagementInformation.entities.Interviews;
+import com.HRManagementInformation.entities.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,11 +25,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/interview")
 public class InterviewController {
-    @Autowired
+
     private final IInterviewsService interviewsService;
-    @Autowired
     private final IModelMapperService modelMapperService;
 
+    @Autowired
     public InterviewController(IInterviewsService interviewsService, IModelMapperService modelMapperService) {
         this.interviewsService = interviewsService;
         this.modelMapperService = modelMapperService;
@@ -49,7 +55,7 @@ public class InterviewController {
     }
 
     @PostMapping()
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public ResultData<InterviewResponse> saveInterview(@RequestBody InterviewSaveRequest interviewSaveRequest) {
         Interviews saveInterview = this.modelMapperService.forRequest().map(interviewSaveRequest, Interviews.class);
         this.interviewsService.save(saveInterview);
@@ -59,7 +65,7 @@ public class InterviewController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<InterviewResponse> updateInterview(@PathVariable("id") int id,
-                                                       @RequestBody InterviewUpdateRequest interviewUpdateRequest) {
+                                                         @RequestBody InterviewUpdateRequest interviewUpdateRequest) {
         Interviews existingInterview = this.interviewsService.get(id);
         this.modelMapperService.forRequest().map(interviewUpdateRequest, existingInterview);
         this.interviewsService.update(existingInterview);
@@ -73,4 +79,4 @@ public class InterviewController {
         this.interviewsService.delete(id);
         return ResultHelper.ok();
     }
-} 
+}
