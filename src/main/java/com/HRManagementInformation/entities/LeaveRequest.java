@@ -22,6 +22,22 @@ public class LeaveRequest {
     private LocalDate endDate;
     private double totalDays;
     private String status;
+    // 1. Field'ı sınıfa ekle
+@Column(name = "reason")
+private String reason;
+
+public String getReason() {
+    return reason;
+}
+
+public void setReason(String reason) {
+    this.reason = reason;
+}
+
+
+    // 1. Field'ı sınıfa ekle
+
+
 
     public LeaveRequest() {}
 
@@ -56,4 +72,7 @@ public class LeaveRequest {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+
+
 }

@@ -133,18 +133,27 @@
             });
         };
         function showDetails(userId) {
-            fetch('/api/user/' + userId)
-                .then(resp => resp.json())
-                .then(data => {
-                    let html = `<b>ID:</b> ${data.data.id}<br>
-                                <b>Ad:</b> ${data.data.firstName}<br>
-                                <b>Soyad:</b> ${data.data.lastName}<br>
-                                <b>Email:</b> ${data.data.email}<br>
-                                <b>Telefon:</b> ${data.data.phone}`;
-                    document.getElementById('user-details-content').innerHTML = html;
-                    document.getElementById('user-details-modal').style.display = 'block';
-                });
-        }
+    fetch('/api/user/' + userId)
+        .then(resp => resp.json())
+        .then(data => {
+            const u = data.data;
+            let html = `
+                <b>ID:</b> ${u.id}<br>
+                <b>Ad:</b> ${u.firstName}<br>
+                <b>Soyad:</b> ${u.lastName}<br>
+                <b>Email:</b> ${u.email}<br>
+                <b>Telefon:</b> ${u.phone}<br>
+                <b>TC No:</b> ${u.tcNo}<br>
+                <b>Departman:</b> ${u.departmentName || 'Yok'}<br>
+                <b>Rol:</b> ${u.roleName || 'Yok'}<br>
+                <b>İşe Giriş Tarihi:</b> ${u.hireDate || 'Belirtilmemiş'}<br>
+                <b>Doğum Tarihi:</b> ${u.birthDate || 'Belirtilmemiş'}
+            `;
+            document.getElementById('user-details-content').innerHTML = html;
+            document.getElementById('user-details-modal').style.display = 'block';
+        });
+}
+
         function deleteUser(userId) {
             if (!confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?')) return;
             fetch('/api/user/' + userId, {

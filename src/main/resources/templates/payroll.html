@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bordro Kayıtları - HR Yönetim Bilgi Sistemi</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="/css/main.css"/>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>HR Yönetim Bilgi Sistemi</h1>
+    <nav>
+        <ul class="navbar">
+            <li><a th:href="@{/main}">Ana Sayfa</a></li>
+            <li><a th:href="@{/users}">Kullanıcılar</a></li>
+            <li><a th:href="@{/departments}">Departmanlar</a></li>
+            <li><a th:href="@{/roles}">Roller</a></li>
+            <li><a th:href="@{/salary}">Maaşlar</a></li>
+            <li><a th:href="@{/leave-requests}">İzinler</a></li>
+            <li><a th:href="@{/payroll}" class="active">Bordro</a></li>
+            <li><a th:href="@{/promotion}">Terfiler</a></li>
+            <li><a th:href="@{/recruitment}">İşe Alım</a></li>
+            <li><a th:href="@{/job-offer}">İş Teklifleri</a></li>
+            <li><a th:href="@{/interview}">Mülakatlar</a></li>
+            <li><a th:href="@{/exitrecord}">Çıkış Kayıtları</a></li>
+            <li><a th:href="@{/hrmeetingnote}">HR Notları</a></li>
+            <li><a th:href="@{/insurancerecord}">Sigorta</a></li>
+            <li><a th:href="@{/documents}">Belgeler</a></li>
+            <li><a th:href="@{/attendance}">Devam Takibi</a></li>
+            <li><a th:href="@{/goals}">Aylık Hedefler</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Bordro Kaydı Ekle</h2>
+    <form th:action="@{/payroll/save}" method="post">
+        <div class="form-group">
+            <label>Kullanıcı:</label>
+            <select name="userId" required>
+                <option value="">Kullanıcı Seçiniz</option>
+                <option th:each="user : ${users}"
+                        th:value="${user.id}"
+                        th:text="${user.firstName + ' ' + user.lastName}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Dönem (Tarih):</label>
+            <input type="date" name="payroll_date" required />
+        </div>
+
+        <div class="form-group">
+            <label>Brüt Maaş:</label>
+            <input type="number" name="base_salary" required />
+        </div>
+
+        <div class="form-group">
+            <label>Prim:</label>
+            <input type="number" name="bonuses" required />
+        </div>
+
+        <div class="form-group">
+            <label>Kesintiler:</label>
+            <input type="number" name="deductions" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
+
+    <h2>Bordro Kayıtları</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Kullanıcı</th>
+            <th>Maaş</th>
+            <th>Dönem</th>
+            <th>İşlemler</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="record : ${payrollRecords}">
+            <td th:text="${record.id}">1</td>
+            <td th:text="${record.user != null ? record.user.firstName + ' ' + record.user.lastName : 'Tanımsız'}">Ali Veli</td>
+            <td th:text="${record.base_salary}">10000</td>
+            <td th:text="${#dates.format(record.payroll_date, 'yyyy-MM-dd')}">2025-06-01</td>
+            <td>
+                <a th:href="@{'/payroll/edit/' + ${record.id}}" class="btn btn-primary">Düzenle</a>
+                <a th:href="@{'/payroll/delete/' + ${record.id}}" class="btn btn-danger"
+                   onclick="return confirm('Silmek istediğinize emin misiniz?');">Sil</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
